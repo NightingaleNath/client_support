@@ -63,6 +63,24 @@ function saveDepartment($dname, $description) {
     }
 }
 
+function deleteDepartment($id) {
+    global $conn;
+
+    $stmt = mysqli_prepare($conn, "DELETE FROM departments WHERE id=?");
+    mysqli_stmt_bind_param($stmt, 'i', $id);
+    $result = mysqli_stmt_execute($stmt);
+
+    if ($result) {
+        $response = array('status' => 'success', 'message' => 'Department Deleted Successfully');
+        echo json_encode($response);
+        exit;
+    } else {
+        $response = array('status' => 'error', 'message' => 'Failed to delete department');
+        echo json_encode($response);
+        exit;
+    }
+}
+
 
 if(isset($_POST['action'])) {
     // Determine which action to perform
@@ -76,6 +94,10 @@ if(isset($_POST['action'])) {
         $dname = $_POST['dname'];
         $description = $_POST['description'];
         $response = saveDepartment($dname, $description);
+        echo $response;
+    } elseif ($_POST['action'] === 'delete') {
+        $id = $_POST['id'];
+        $response = deleteDepartment($id);
         echo $response;
     }
 }

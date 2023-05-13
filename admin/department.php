@@ -152,7 +152,7 @@
                                                                                                         <td class="action-icon">
                                                                                                             <a href="#" data-modal="modal-13" class="m-r-15 text-muted edit-btn md-trigger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit" data-id="<?php echo $row['id']; ?>" data-name="<?php echo $row['name']; ?>" data-description="<?php echo $row['description']; ?>">
                                                                                                             <i class="icofont icofont-ui-edit"></i></a>
-                                                                                                            <a href="#!" class="text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="icofont icofont-ui-delete"></i></a>
+                                                                                                            <a href="#" class="delete-btn text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" data-id="<?php echo $row['id']; ?>"><i class="icofont icofont-ui-delete"></i></a>
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                     <?php
@@ -361,7 +361,64 @@
                 });
             })()
         })
+    </script>
+    <script type="text/javascript">
+        $('.delete-btn').click(function(){
+        (async () => {
+            const { value: formValues } = await Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            })
 
+            if (formValues) {
+            var data = {
+                id: $(this).data("id"),
+                action: "delete"
+            };
+
+            $.ajax({
+                url: 'department_functions.php',
+                type: 'post',
+                data: data,
+                success: function(response) {
+                    const responseObject = JSON.parse(response);
+                    console.log(`RESPONSE HERE: ${responseObject.status}`);
+                    if (response && responseObject.status === 'success') {
+                        // Show success message
+                        Swal.fire(
+                            'Deleted!',
+                            'Department has been deleted.',
+                            'success'
+                        ).then((result) => {
+                                if (result.isConfirmed) {
+                                   
+                                    location.reload();
+                                }
+                        });
+                        
+                    } else {
+                        // Show error message
+                        Swal.fire(
+                            'Error!',
+                            'Failed to delete department.',
+                            'error'
+                        );
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log("AJAX error: " + error);
+                    Swal.fire('Error!', 'Failed to delete department.', 'error');
+                }
+
+            });
+          }
+        })()
+    })
     </script>
 
 </body>
