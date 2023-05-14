@@ -47,9 +47,6 @@
                                                                     <div class="col-sm-12">
                                                                         <!-- contact data table card start -->
                                                                         <div class="card">
-                                                                            <div class="card-header">
-                                                                                <h5 class="card-header-text">Contacts</h5>
-                                                                            </div>
                                                                             <div class="card-block contact-details">
                                                                                 <div class="data_table_main table-responsive dt-responsive">
                                                                                     <?php
@@ -129,11 +126,11 @@
     <!-- Required Jquery -->   
     <?php include('../includes/scripts.php')?>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-    gtag('config', 'UA-23581568-13');
+        gtag('config', 'UA-23581568-13');
     </script>
     <script type="text/javascript">
         $('.delete-staff').click(function(){
