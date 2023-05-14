@@ -1,4 +1,5 @@
 <?php include('../includes/header.php')?>
+
 <body>
 <!-- Pre-loader start -->
  <?php include('../includes/loader.php')?>
@@ -9,113 +10,6 @@
 
        <?php include('../includes/topbar.php')?>
 
-        <!-- Sidebar chat start -->
-        <div id="sidebar" class="users p-chat-user showChat">
-            <div class="had-container">
-                <div class="card card_main p-fixed users-main">
-                    <div class="user-box">
-                        <div class="chat-inner-header">
-                            <div class="back_chatBox">
-                                <div class="right-icon-control">
-                                    <input type="text" class="form-control  search-text" placeholder="Search Friend" id="search-friends">
-                                    <div class="form-icon">
-                                        <i class="icofont icofont-search"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="main-friend-list">
-                            <div class="media userlist-box" data-id="1" data-status="online" data-username="Josephin Doe" data-toggle="tooltip" data-placement="left" title="Josephin Doe">
-                                <a class="media-left" href="#!">
-                                    <img class="media-object img-radius img-radius" src="..\files\assets\images\avatar-3.jpg" alt="Generic placeholder image ">
-                                    <div class="live-status bg-success"></div>
-                                </a>
-                                <div class="media-body">
-                                    <div class="f-13 chat-header">Josephin Doe</div>
-                                </div>
-                            </div>
-                            <div class="media userlist-box" data-id="2" data-status="online" data-username="Lary Doe" data-toggle="tooltip" data-placement="left" title="Lary Doe">
-                                <a class="media-left" href="#!">
-                                    <img class="media-object img-radius" src="..\files\assets\images\avatar-2.jpg" alt="Generic placeholder image">
-                                    <div class="live-status bg-success"></div>
-                                </a>
-                                <div class="media-body">
-                                    <div class="f-13 chat-header">Lary Doe</div>
-                                </div>
-                            </div>
-                            <div class="media userlist-box" data-id="3" data-status="online" data-username="Alice" data-toggle="tooltip" data-placement="left" title="Alice">
-                                <a class="media-left" href="#!">
-                                    <img class="media-object img-radius" src="..\files\assets\images\avatar-4.jpg" alt="Generic placeholder image">
-                                    <div class="live-status bg-success"></div>
-                                </a>
-                                <div class="media-body">
-                                    <div class="f-13 chat-header">Alice</div>
-                                </div>
-                            </div>
-                            <div class="media userlist-box" data-id="4" data-status="online" data-username="Alia" data-toggle="tooltip" data-placement="left" title="Alia">
-                                <a class="media-left" href="#!">
-                                    <img class="media-object img-radius" src="..\files\assets\images\avatar-3.jpg" alt="Generic placeholder image">
-                                    <div class="live-status bg-success"></div>
-                                </a>
-                                <div class="media-body">
-                                    <div class="f-13 chat-header">Alia</div>
-                                </div>
-                            </div>
-                            <div class="media userlist-box" data-id="5" data-status="online" data-username="Suzen" data-toggle="tooltip" data-placement="left" title="Suzen">
-                                <a class="media-left" href="#!">
-                                    <img class="media-object img-radius" src="..\files\assets\images\avatar-2.jpg" alt="Generic placeholder image">
-                                    <div class="live-status bg-success"></div>
-                                </a>
-                                <div class="media-body">
-                                    <div class="f-13 chat-header">Suzen</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Sidebar inner chat start-->
-        <div class="showChat_inner">
-            <div class="media chat-inner-header">
-                <a class="back_chatBox">
-                    <i class="feather icon-chevron-left"></i> Josephin Doe
-                </a>
-            </div>
-            <div class="media chat-messages">
-                <a class="media-left photo-table" href="#!">
-                    <img class="media-object img-radius img-radius m-t-5" src="..\files\assets\images\avatar-3.jpg" alt="Generic placeholder image">
-                </a>
-                <div class="media-body chat-menu-content">
-                    <div class="">
-                        <p class="chat-cont">I'm just looking around. Will you tell me something about yourself?</p>
-                        <p class="chat-time">8:20 a.m.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="media chat-messages">
-                <div class="media-body chat-menu-reply">
-                    <div class="">
-                        <p class="chat-cont">I'm just looking around. Will you tell me something about yourself?</p>
-                        <p class="chat-time">8:20 a.m.</p>
-                    </div>
-                </div>
-                <div class="media-right photo-table">
-                    <a href="#!">
-                        <img class="media-object img-radius img-radius m-t-5" src="..\files\assets\images\avatar-4.jpg" alt="Generic placeholder image">
-                    </a>
-                </div>
-            </div>
-            <div class="chat-reply-box p-b-20">
-                <div class="right-icon-control">
-                    <input type="text" class="form-control search-text" placeholder="Share Your Thoughts">
-                    <div class="form-icon">
-                        <i class="feather icon-navigation"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Sidebar inner chat end-->
         <div class="pcoded-main-container">
             <div class="pcoded-wrapper">
                 <?php $page_name = "new_staff"; ?>
@@ -145,6 +39,17 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <!-- Basic Inputs Validation start -->
+                                                <?php
+                                                    // Check if the edit parameter is set and fetch the record from the database
+                                                    if(isset($_GET['edit']) && $_GET['edit'] == 1 && isset($_GET['id'])) {
+                                                        $id = $_GET['id'];
+                                                        $stmt = mysqli_prepare($conn, "SELECT * FROM staff WHERE id = ?");
+                                                        mysqli_stmt_bind_param($stmt, "i", $id);
+                                                        mysqli_stmt_execute($stmt);
+                                                        $result = mysqli_stmt_get_result($stmt);
+                                                        $row = mysqli_fetch_assoc($result);
+                                                    }
+                                                ?>
                                                 <div class="card">
                                                     <div class="card-block">
                                                         <div class="row">
@@ -156,7 +61,7 @@
                                                                             <label for="userName-2" class="block">First Name *</label>
                                                                         </div>
                                                                         <div class="col-sm-12">
-                                                                            <input type="text" id="firstName" name="firstName" class="form-control" placeholder=".form-txt-primary">
+                                                                            <input type="text" id="firstname" name="firstname"autocomplete="off" class="form-control" placeholder="" value="<?php echo isset($row['firstname']) ? $row['firstname'] : ''; ?>">
                                                                         </div>
                                                                         
                                                                     </div>
@@ -165,7 +70,7 @@
                                                                             <label for="userName-2" class="block">Middle Name</label>
                                                                         </div>
                                                                         <div class="col-sm-12">
-                                                                            <input type="text" id="middleName" name="middleName"  class="form-control" placeholder=".form-txt-primary">
+                                                                            <input type="text" id="middlename" name="middlename" autocomplete="off" class="form-control" placeholder="" value="<?php echo isset($row['middlename']) ? $row['middlename'] : ''; ?>">
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group row">
@@ -173,7 +78,7 @@
                                                                             <label for="userName-2" class="block">Last Name *</label>
                                                                         </div>
                                                                         <div class="col-sm-12">
-                                                                            <input type="text" id="lastName" name="lastName"  class="form-control" placeholder=".form-txt-primary">
+                                                                            <input type="text" id="lastname" name="lastname" autocomplete="off" class="form-control" placeholder="" value="<?php echo isset($row['lastname']) ? $row['lastname'] : ''; ?>">
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group row">
@@ -181,7 +86,7 @@
                                                                             <label for="userName-2" class="block">Contact Number *</label>
                                                                         </div>
                                                                         <div class="col-sm-12">
-                                                                            <input type="text" id="contact" name="contact"  class="form-control" placeholder=".form-txt-primary">
+                                                                            <input type="tel" id="contact" name="contact" autocomplete="off" class="form-control" placeholder="" value="<?php echo isset($row['contact']) ? $row['contact'] : ''; ?>">
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group row">
@@ -189,7 +94,7 @@
                                                                             <label for="userName-2" class="block">Address *</label>
                                                                         </div>
                                                                         <div class="col-sm-12">
-                                                                            <input type="text" id="address" name="address"  class="form-control" placeholder=".form-txt-primary">
+                                                                            <input type="text" id="address" name="address" autocomplete="off" class="form-control" placeholder="" value="<?php echo isset($row['address']) ? $row['address'] : ''; ?>">
                                                                         </div>
                                                                     </div>
                                                                 </form>
@@ -201,10 +106,42 @@
                                                                             <label for="userName-2" class="block">Department *</label>
                                                                         </div>
                                                                         <div class="col-sm-12">
-                                                                            <select class="js-example-disabled-results col-sm-12">
-                                                                                <option value="one">First</option>
-                                                                                <option value="two">Second</option>
-                                                                                <option value="three">Third</option>
+                                                                            <select class="js-example-disabled-results col-sm-12" name="department" id="department" required>
+                                                                                <?php
+                                                                                    // Check if we are coming from an edit page and $selected_department_id is not empty
+                                                                                    if (!empty($row['department_id'])) {
+                                                                                            // Query the database to get the department details
+                                                                                            $stmt = mysqli_prepare($conn, "SELECT id, name FROM departments WHERE id = ?");
+                                                                                            mysqli_stmt_bind_param($stmt, "i", $row['department_id']);
+                                                                                            mysqli_stmt_execute($stmt);
+                                                                                            mysqli_stmt_bind_result($stmt, $id, $name);
+                                                                                            mysqli_stmt_fetch($stmt);
+                                                                                            mysqli_stmt_close($stmt);
+                                                                                            // Output the selected option
+                                                                                            echo '<option value="' . $id . '" selected>' . $name . '</option>';
+                                                                                            // Output the rest of the options
+                                                                                            $stmt = mysqli_prepare($conn, "SELECT id, name, description FROM departments");
+                                                                                            mysqli_stmt_execute($stmt);
+                                                                                            mysqli_stmt_store_result($stmt);
+                                                                                            mysqli_stmt_bind_result($stmt, $id, $name, $description);
+                                                                                            while (mysqli_stmt_fetch($stmt)) {
+                                                                                                echo '<option value="' . $id . '">' . $name . '</option>';
+                                                                                            }
+                                                                                            mysqli_stmt_close($stmt);
+                                                                                    } else {
+                                                                                        // Output the first option as "Select department" and disabled
+                                                                                            echo '<option value="" disabled selected>Select department</option>';
+                                                                                            // Output the rest of the options
+                                                                                            $stmt = mysqli_prepare($conn, "SELECT id, name, description FROM departments");
+                                                                                            mysqli_stmt_execute($stmt);
+                                                                                            mysqli_stmt_store_result($stmt);
+                                                                                            mysqli_stmt_bind_result($stmt, $id, $name, $description);
+                                                                                            while (mysqli_stmt_fetch($stmt)) {
+                                                                                                echo '<option value="' . $id . '">' . $name . '</option>';
+                                                                                            }
+                                                                                            mysqli_stmt_close($stmt);
+                                                                                    }
+                                                                                ?>
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -213,7 +150,7 @@
                                                                             <label for="userName-2" class="block">Email *</label>
                                                                         </div>
                                                                         <div class="col-sm-12">
-                                                                            <input type="text" id="email" name="email"  class="form-control" placeholder=".form-txt-primary">
+                                                                            <input type="email" id="email" name="email" autocomplete="off" class="form-control" placeholder="" value="<?php echo isset($row['email']) ? $row['email'] : ''; ?>">
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group row">
@@ -221,7 +158,8 @@
                                                                             <label for="userName-2" class="block">Password *</label>
                                                                         </div>
                                                                         <div class="col-sm-12">
-                                                                            <input type="text" id="password" name="password"  class="form-control" placeholder=".form-txt-primary">
+                                                                            <input type="password" placeholder="**********" id="password" name="password" autocomplete="off" class="form-control">
+                                                                            <label for="userName" class="block" style="font-style: italic; font-size: 12px;">Leave this blank if you don't want to change password</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group row">
@@ -229,7 +167,7 @@
                                                                             <label for="userName-2" class="block">Confirm Password *</label>
                                                                         </div>
                                                                         <div class="col-sm-12">
-                                                                            <input type="text" id="c_password" name="c_password"  class="form-control" placeholder=".form-txt-primary">
+                                                                            <input type="password" placeholder="**********" id="c_password" name="c_password" autocomplete="off" class="form-control">
                                                                         </div>
                                                                     </div>
                                                                 
@@ -239,7 +177,11 @@
                                                        <div class="row">
                                                             <label class="col-sm-5"></label>
                                                             <div class="col-sm-5">
-                                                                <button type="submit" class="btn btn-primary m-b-0">Submit</button>
+                                                                <?php if(isset($row) && !empty($row)): ?>
+                                                                    <button id="staff-update" type="submit" class="btn btn-primary m-b-0">Update</button>
+                                                                <?php else: ?>
+                                                                    <button id="staff-add" type="submit" class="btn btn-primary m-b-0">Submit</button>
+                                                                <?php endif; ?>
                                                             </div>
                                                        </div>
                                                     </div>
@@ -263,15 +205,170 @@
         </div>
     </div>
 
-<!-- Required Jquery -->
-<?php include('../includes/scripts.php')?>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Required Jquery -->
+    <?php include('../includes/scripts.php')?>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-  gtag('config', 'UA-23581568-13');
-</script>
-</body>
+        gtag('config', 'UA-23581568-13');
+    </script>
+    <script>
+        $('#staff-update').click(function(event){
+            event.preventDefault(); // prevent the default form submission
+            (async () => {
+                var data = {
+                    id: <?php echo isset($_GET['id']) ? $_GET['id'] : 'null'; ?>,
+                    firstname: $('#firstname').val(),
+                    middlename: $('#middlename').val(),
+                    lastname: $('#lastname').val(),
+                    contact: $('#contact').val(),
+                    address: $('#address').val(),
+                    department: $('#department').val(),
+                    email: $('#email').val(),
+                    password: $('#password').val(),
+                    c_password: $('#c_password').val(),
+                    action: "updateStaff",
+                };
+
+                if (data.firstname.trim() === '' || data.lastname.trim() === '' || 
+                    data.contact.trim() === '' || data.address.trim() === '' || 
+                    data.department.trim() === '' || data.email.trim() === '') {
+                    Swal.fire({
+                        icon: 'warning',
+                        text: 'Please all fieds are required. Kindly fill all',
+                        confirmButtonColor: '#ffc107',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+                if (data.password.trim() !== data.c_password.trim()) {
+                    Swal.fire({
+                        icon: 'warning',
+                        text: 'Password and Confirm Password do not match',
+                        confirmButtonColor: '#ffc107',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+                console.log('Data HERE: ' + JSON.stringify(data));
+                $.ajax({
+                    url: 'staff_functions.php',
+                    type: 'post',
+                    data: data,
+                    success:function(response){
+                        console.log('success function called');
+                        response = JSON.parse(response);
+                        console.log('RESPONSE HERE: ' + response.status)
+                        console.log(`RESPONSE HERE: ${response.message}`);
+                        if (response.status == 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                html: response.message,
+                                confirmButtonColor: '#01a9ac',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "staff_list.php";
+                                    // location.reload();
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                text: response.message,
+                                confirmButtonColor: '#eb3422',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log('AJAX Data HERE: ' + JSON.stringify(data));
+                        console.log("Response from server: " + jqXHR.responseText);
+                        console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                    }
+                });
+            })()
+        })
+    </script>
+    <script>
+        $('#staff-add').click(function(event){
+            event.preventDefault(); // prevent the default form submission
+            (async () => {
+                var data = {
+                    firstname: $('#firstname').val(),
+                    middlename: $('#middlename').val(),
+                    lastname: $('#lastname').val(),
+                    contact: $('#contact').val(),
+                    address: $('#address').val(),
+                    department: $('#department').val(),
+                    email: $('#email').val(),
+                    password: $('#password').val(),
+                    c_password: $('#c_password').val(),
+                    action: "staff-add",
+                };
+
+                if (data.firstname.trim() === '' || data.lastname.trim() === '' || 
+                    data.contact.trim() === '' || data.address.trim() === '' || 
+                    data.department.trim() === '' || data.email.trim() === '' || 
+                    data.password.trim() === '' || data.c_password.trim() === '') {
+                    Swal.fire({
+                        icon: 'warning',
+                        text: 'Please all fieds are required. Kindly fill all',
+                        confirmButtonColor: '#ffc107',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+                if (data.password.trim() !== data.c_password.trim()) {
+                    Swal.fire({
+                        icon: 'warning',
+                        text: 'Password and Confirm Password do not match',
+                        confirmButtonColor: '#ffc107',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+                console.log('Data HERE: ' + JSON.stringify(data));
+                $.ajax({
+                    url: 'staff_functions.php',
+                    type: 'post',
+                    data: data,
+                    success:function(response){
+                        console.log('success function called');
+                        response = JSON.parse(response);
+                        console.log('RESPONSE HERE: ' + response.status)
+                        console.log(`RESPONSE HERE: ${response.message}`);
+                        if (response.status == 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                html: response.message,
+                                confirmButtonColor: '#01a9ac',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                text: response.message,
+                                confirmButtonColor: '#eb3422',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log('AJAX Data HERE: ' + JSON.stringify(data));
+                        console.log("Response from server: " + jqXHR.responseText);
+                        console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                    }
+                });
+            })()
+        })
+    </script>
+ </body>
 
 </html>

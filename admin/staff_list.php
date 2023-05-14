@@ -9,112 +9,6 @@
 
         <?php include('../includes/topbar.php')?>
 
-        <!-- Sidebar chat start -->
-        <div id="sidebar" class="users p-chat-user showChat">
-            <div class="had-container">
-                <div class="card card_main p-fixed users-main">
-                    <div class="user-box">
-                        <div class="chat-inner-header">
-                            <div class="back_chatBox">
-                                <div class="right-icon-control">
-                                    <input type="text" class="form-control  search-text" placeholder="Search Friend" id="search-friends">
-                                    <div class="form-icon">
-                                        <i class="icofont icofont-search"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="main-friend-list">
-                            <div class="media userlist-box" data-id="1" data-status="online" data-username="Josephin Doe" data-toggle="tooltip" data-placement="left" title="Josephin Doe">
-                                <a class="media-left" href="#!">
-                                    <img class="media-object img-radius img-radius" src="..\files\assets\images\avatar-3.jpg" alt="Generic placeholder image ">
-                                    <div class="live-status bg-success"></div>
-                                </a>
-                                <div class="media-body">
-                                    <div class="f-13 chat-header">Josephin Doe</div>
-                                </div>
-                            </div>
-                            <div class="media userlist-box" data-id="2" data-status="online" data-username="Lary Doe" data-toggle="tooltip" data-placement="left" title="Lary Doe">
-                                <a class="media-left" href="#!">
-                                    <img class="media-object img-radius" src="..\files\assets\images\avatar-2.jpg" alt="Generic placeholder image">
-                                    <div class="live-status bg-success"></div>
-                                </a>
-                                <div class="media-body">
-                                    <div class="f-13 chat-header">Lary Doe</div>
-                                </div>
-                            </div>
-                            <div class="media userlist-box" data-id="3" data-status="online" data-username="Alice" data-toggle="tooltip" data-placement="left" title="Alice">
-                                <a class="media-left" href="#!">
-                                    <img class="media-object img-radius" src="..\files\assets\images\avatar-4.jpg" alt="Generic placeholder image">
-                                    <div class="live-status bg-success"></div>
-                                </a>
-                                <div class="media-body">
-                                    <div class="f-13 chat-header">Alice</div>
-                                </div>
-                            </div>
-                            <div class="media userlist-box" data-id="4" data-status="online" data-username="Alia" data-toggle="tooltip" data-placement="left" title="Alia">
-                                <a class="media-left" href="#!">
-                                    <img class="media-object img-radius" src="..\files\assets\images\avatar-3.jpg" alt="Generic placeholder image">
-                                    <div class="live-status bg-success"></div>
-                                </a>
-                                <div class="media-body">
-                                    <div class="f-13 chat-header">Alia</div>
-                                </div>
-                            </div>
-                            <div class="media userlist-box" data-id="5" data-status="online" data-username="Suzen" data-toggle="tooltip" data-placement="left" title="Suzen">
-                                <a class="media-left" href="#!">
-                                    <img class="media-object img-radius" src="..\files\assets\images\avatar-2.jpg" alt="Generic placeholder image">
-                                    <div class="live-status bg-success"></div>
-                                </a>
-                                <div class="media-body">
-                                    <div class="f-13 chat-header">Suzen</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Sidebar inner chat start-->
-        <div class="showChat_inner">
-            <div class="media chat-inner-header">
-                <a class="back_chatBox">
-                    <i class="feather icon-chevron-left"></i> Josephin Doe
-                </a>
-            </div>
-            <div class="media chat-messages">
-                <a class="media-left photo-table" href="#!">
-                    <img class="media-object img-radius img-radius m-t-5" src="..\files\assets\images\avatar-3.jpg" alt="Generic placeholder image">
-                </a>
-                <div class="media-body chat-menu-content">
-                    <div class="">
-                        <p class="chat-cont">I'm just looking around. Will you tell me something about yourself?</p>
-                        <p class="chat-time">8:20 a.m.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="media chat-messages">
-                <div class="media-body chat-menu-reply">
-                    <div class="">
-                        <p class="chat-cont">I'm just looking around. Will you tell me something about yourself?</p>
-                        <p class="chat-time">8:20 a.m.</p>
-                    </div>
-                </div>
-                <div class="media-right photo-table">
-                    <a href="#!">
-                        <img class="media-object img-radius img-radius m-t-5" src="..\files\assets\images\avatar-4.jpg" alt="Generic placeholder image">
-                    </a>
-                </div>
-            </div>
-            <div class="chat-reply-box p-b-20">
-                <div class="right-icon-control">
-                    <input type="text" class="form-control search-text" placeholder="Share Your Thoughts">
-                    <div class="form-icon">
-                        <i class="feather icon-navigation"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- Sidebar inner chat end-->
         <div class="pcoded-main-container">
             <div class="pcoded-wrapper">
@@ -158,82 +52,51 @@
                                                                             </div>
                                                                             <div class="card-block contact-details">
                                                                                 <div class="data_table_main table-responsive dt-responsive">
-                                                                                    <table id="simpletable" class="table  table-striped table-bordered nowrap">
-                                                                                        <thead>
-                                                                                            <tr>
-                                                                                                <th>Name</th>
-                                                                                                <th>Email</th>
-                                                                                                <th>Mobileno.</th>
-                                                                                                <th>Favourite</th>
-                                                                                                <th>Action</th>
-                                                                                            </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-                                                                                            <tr>
-                                                                                                <td>Nathaniel Nkrumah</td>
-                                                                                                <td><a href="..\..\..\cdn-cgi\l\email-protection.htm" class="__cf_email__" data-cfemail="bbdad9d88a8988fbdcd6dad2d795d8d4d6">[email&#160;protected]</a></td>
-                                                                                                <td>9989988988</td>
-                                                                                                <td><i class="fa fa-star" aria-hidden="true"></i></td>
-                                                                                                <td class="dropdown">
-                                                                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
-                                                                                                    <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
-                                                                                                    </div>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>Garrett Winters</td>
-                                                                                                <td><a href="..\..\..\cdn-cgi\l\email-protection.htm" class="__cf_email__" data-cfemail="a3c2c1c0929190e3c4cec2cacf8dc0ccce">[email&#160;protected]</a></td>
-                                                                                                <td>9989988988</td>
-                                                                                                <td><i class="fa fa-star-o" aria-hidden="true"></i></td>
-                                                                                                <td class="dropdown">
-                                                                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
-                                                                                                    <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
-                                                                                                    </div>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>Garrett Winters</td>
-                                                                                                <td><a href="..\..\..\cdn-cgi\l\email-protection.htm" class="__cf_email__" data-cfemail="2d4c4f4e1c1f1e6d4a404c4441034e4240">[email&#160;protected]</a></td>
-                                                                                                <td>9989988988</td>
-                                                                                                <td><i class="fa fa-star" aria-hidden="true"></i></td>
-                                                                                                <td class="dropdown">
-                                                                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
-                                                                                                    <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-eye"></i>Activity</a>
-                                                                                                        <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
-                                                                                                    </div>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        </tbody>
-                                                                                        <!-- <tfoot>
-                                                                                            <tr>
-                                                                                                <th>Name</th>
-                                                                                                <th>Email</th>
-                                                                                                <th>Mobileno.</th>
-                                                                                                <th>Favourite</th>
-                                                                                                <th>Action</th>
-                                                                                            </tr>
-                                                                                        </tfoot> -->
-                                                                                    </table>
+                                                                                    <?php
+                                                                                        $stmt = mysqli_prepare($conn, "SELECT id, department_id, firstname, lastname, middlename, contact, address, email FROM staff ORDER BY date_created DESC");
+                                                                                        mysqli_stmt_execute($stmt);
+                                                                                        mysqli_stmt_store_result($stmt);
+                                                                                        if (mysqli_stmt_num_rows($stmt) <= 0) {
+                                                                                            echo '<tr><td colspan="5" class="text-center"><img src="..\files\assets\images\no_data.png" class="img-radius" alt="No Data Found" style="width: 200px; height: auto;"></td></tr>';
+                                                                                        } else {
+                                                                                            mysqli_stmt_bind_result($stmt, $id, $department_id, $firstname, $lastname, $middlename, $contact, $address, $email);
+                                                                                            $count = 1;
+                                                                                            ?>
+                                                                                        <table id="simpletable" class="table  table-striped table-bordered">
+                                                                                            <thead>
+                                                                                                <tr>
+                                                                                                    <th>#</th>
+                                                                                                    <th>Name</th>
+                                                                                                    <th>Contact</th>
+                                                                                                    <th>Address</th>
+                                                                                                    <th>Email</th>
+                                                                                                    <th>Action</th>
+                                                                                                </tr>
+                                                                                            </thead>
+                                                                                            <tbody>
+                                                                                              <?php while (mysqli_stmt_fetch($stmt)) { ?>
+                                                                                                <tr>
+                                                                                                        <td><?= $count ?></td>
+                                                                                                        <td><?= $firstname . " " . $middlename . " " . $lastname ?></td>
+                                                                                                        <td><?= $contact ?></td>
+                                                                                                        <td><?= $address ?></td>
+                                                                                                        <td><?= $email ?></td>
+                                                                                                        <td class="dropdown">
+                                                                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                                                                <a class="dropdown-item" href="new_staff.php?id=<?= $id ?>&edit=1"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                                                                <a class="delete-staff dropdown-item" href="#"><i class="delete-staff icofont icofont-ui-delete" data-id="<?= $id ?>"></i>Delete</a>
+                                                                                                            </div>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <?php $count++;
+                                                                                                } ?>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    <?php
+                                                                                    }
+                                                                                  mysqli_stmt_close($stmt);
+                                                                                  ?>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -263,15 +126,79 @@
         </div>
     </div>
 
-<!-- Required Jquery -->   
-<?php include('../includes/scripts.php')?>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Required Jquery -->   
+    <?php include('../includes/scripts.php')?>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'UA-23581568-13');
-</script>
+    gtag('config', 'UA-23581568-13');
+    </script>
+    <script type="text/javascript">
+        $('.delete-staff').click(function(){
+            (async () => {
+                const { value: formValues } = await Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                })
+                const id = $(this).find('i').data('id');
+                console.log('id:', id); 
+
+                if (formValues) {
+                var data = {
+                    id: id,
+                    action: "delete-staff"
+                };
+                console.log('Data HERE: ' + JSON.stringify(data));
+                $.ajax({
+                    url: 'staff_functions.php',
+                    type: 'post',
+                    data: data,
+                    success: function(response) {
+                        const responseObject = JSON.parse(response);
+                        console.log(`RESPONSE: ${response}`);
+                        console.log(`RESPONSE HERE: ${responseObject}`);
+                        console.log(`RESPONSE HERE: ${responseObject.message}`);
+                        if (response && responseObject.status === 'success') {
+                            // Show success message
+                            Swal.fire({
+                                icon: 'success',
+                                html: responseObject.message,
+                                confirmButtonColor: '#01a9ac',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                            
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                text: responseObject.message,
+                                confirmButtonColor: '#eb3422',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("AJAX error: " + error);
+                        console.log('Data HERE: ' + JSON.stringify(data));
+                        Swal.fire('Error!', 'Failed to delete department.', 'error');
+                    }
+
+                });
+            }
+            })()
+        })
+    </script>
+
 </body>
 
 </html>
