@@ -37,6 +37,8 @@
     <script src="..\files\assets\js\modalEffects.js"></script>
     <!-- product list js -->
     <script type="text/javascript" src="..\files\assets\pages\product-list\product-list.js"></script>
+    <!-- task board js -->
+    <script type="text/javascript" src="..\files\assets\pages\task-board\task-board.js"></script>
     
     <!-- Custom js -->
     <script type="text/javascript" src="..\files\assets\pages\advance-elements\select2-custom.js"></script>

@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Africa/Accra');
 include('../includes/config.php');
 
 function updateCustomerRecords($id, $firstname, $lastname, $middlename, $contact, $address, $email, $password) {

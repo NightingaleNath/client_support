@@ -12,7 +12,7 @@
 
         <div class="pcoded-main-container">
             <div class="pcoded-wrapper">
-                <?php $page_name = "new_staff"; ?>
+                <?php $page_name = "new_ticket"; ?>
                 <?php include('../includes/sidebar.php')?>
                 <div class="pcoded-content">
                     <div class="pcoded-inner-content">
@@ -25,7 +25,7 @@
                                         <div class="col-lg-8">
                                             <div class="page-header-title">
                                                 <div class="d-inline">
-                                                    <h4>New Staff</h4>
+                                                    <h4>New Ticket</h4>
                                                  </div>
                                             </div>
                                         </div>
@@ -43,7 +43,7 @@
                                                     // Check if the edit parameter is set and fetch the record from the database
                                                     if(isset($_GET['edit']) && $_GET['edit'] == 1 && isset($_GET['id'])) {
                                                         $id = $_GET['id'];
-                                                        $stmt = mysqli_prepare($conn, "SELECT * FROM staff WHERE id = ?");
+                                                        $stmt = mysqli_prepare($conn, "SELECT * FROM tickets WHERE id = ?");
                                                         mysqli_stmt_bind_param($stmt, "i", $id);
                                                         mysqli_stmt_execute($stmt);
                                                         $result = mysqli_stmt_get_result($stmt);
@@ -54,56 +54,68 @@
                                                     <div class="card-block">
                                                         <div class="row">
                                                             <div class="col-sm-6 mobile-inputs">
-                                                                <h4 class="sub-title">Personal Details</h4>
+                                                                <h4 class="sub-title"></h4>
                                                                 <form>
                                                                     <div class="form-group row">
                                                                         <div class="col-sm-12">
-                                                                            <label for="userName-2" class="block">First Name *</label>
+                                                                            <label for="userName-2" class="block">Subject</label>
                                                                         </div>
                                                                         <div class="col-sm-12">
-                                                                            <input type="text" id="firstname" name="firstname"autocomplete="off" class="form-control" placeholder="" value="<?php echo isset($row['firstname']) ? $row['firstname'] : ''; ?>">
+                                                                            <input type="text" id="subject" name="subject"autocomplete="off" class="form-control" placeholder="" value="<?php echo isset($row['subject']) ? $row['subject'] : ''; ?>">
                                                                         </div>
                                                                         
                                                                     </div>
                                                                     <div class="form-group row">
                                                                         <div class="col-sm-12">
-                                                                            <label for="userName-2" class="block">Middle Name</label>
+                                                                            <label for="userName-2" class="block">Customer</label>
                                                                         </div>
                                                                         <div class="col-sm-12">
-                                                                            <input type="text" id="middlename" name="middlename" autocomplete="off" class="form-control" placeholder="" value="<?php echo isset($row['middlename']) ? $row['middlename'] : ''; ?>">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <div class="col-sm-12">
-                                                                            <label for="userName-2" class="block">Last Name *</label>
-                                                                        </div>
-                                                                        <div class="col-sm-12">
-                                                                            <input type="text" id="lastname" name="lastname" autocomplete="off" class="form-control" placeholder="" value="<?php echo isset($row['lastname']) ? $row['lastname'] : ''; ?>">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <div class="col-sm-12">
-                                                                            <label for="userName-2" class="block">Contact Number *</label>
-                                                                        </div>
-                                                                        <div class="col-sm-12">
-                                                                            <input type="tel" id="contact" name="contact" autocomplete="off" class="form-control" placeholder="" value="<?php echo isset($row['contact']) ? $row['contact'] : ''; ?>">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <div class="col-sm-12">
-                                                                            <label for="userName-2" class="block">Address *</label>
-                                                                        </div>
-                                                                        <div class="col-sm-12">
-                                                                            <input type="text" id="address" name="address" autocomplete="off" class="form-control" placeholder="" value="<?php echo isset($row['address']) ? $row['address'] : ''; ?>">
+                                                                            <select class="js-example-disabled-results col-sm-12" name="customer" id="customer" required>
+                                                                                <?php
+                                                                                    // Check if we are coming from an edit page and $selected_department_id is not empty
+                                                                                    if (!empty($row['customer_id'])) {
+                                                                                            // Query the database to get the department details
+                                                                                            $stmt = mysqli_prepare($conn, "SELECT id, firstname, middlename, lastname, contact FROM customers WHERE id = ?");
+                                                                                            mysqli_stmt_bind_param($stmt, "i", $row['customer_id']);
+                                                                                            mysqli_stmt_execute($stmt);
+                                                                                             mysqli_stmt_bind_result($stmt, $id, $firstname, $middlename, $lastname, $contact);
+                                                                                            mysqli_stmt_fetch($stmt);
+                                                                                            mysqli_stmt_close($stmt);
+                                                                                            // Output the selected option
+                                                                                            echo '<option value="' . $id . '" selected>' . $firstname . ' ' . $middlename . ' ' . $lastname . '</option>';
+                                                                                            // Output the rest of the options
+                                                                                            $stmt = mysqli_prepare($conn, "SELECT id, firstname, middlename, lastname, contact FROM customers");
+                                                                                            mysqli_stmt_execute($stmt);
+                                                                                            mysqli_stmt_store_result($stmt);
+                                                                                             mysqli_stmt_bind_result($stmt, $id, $firstname, $middlename, $lastname, $contact);
+                                                                                            while (mysqli_stmt_fetch($stmt)) {
+                                                                                                echo '<option value="' . $id . '">' . $firstname . ' ' . $middlename . ' ' . $lastname . '</option>';
+                                                                                            }
+                                                                                            mysqli_stmt_close($stmt);
+                                                                                    } else {
+                                                                                        // Output the first option as "Select department" and disabled
+                                                                                            echo '<option value="" disabled selected>Select customer</option>';
+                                                                                            // Output the rest of the options
+                                                                                            $stmt = mysqli_prepare($conn, "SELECT id, firstname, middlename, lastname, contact FROM customers");
+                                                                                            mysqli_stmt_execute($stmt);
+                                                                                            mysqli_stmt_store_result($stmt);
+                                                                                            mysqli_stmt_bind_result($stmt, $id, $firstname, $middlename, $lastname, $contact);
+                                                                                            while (mysqli_stmt_fetch($stmt)) {
+                                                                                               echo '<option value="' . $id . '">' . $firstname . ' ' . $middlename . ' ' . $lastname . '</option>';
+                                                                                            }
+                                                                                            mysqli_stmt_close($stmt);
+                                                                                    }
+                                                                                ?>
+                                                                            </select>
                                                                         </div>
                                                                     </div>
                                                                 </form>
                                                             </div>
                                                             <div class="col-sm-6 mobile-inputs">
-                                                                <h4 class="sub-title">System Credentials</h4>
+                                                                <h4 class="sub-title"></h4>
                                                                     <div class="form-group row">
                                                                         <div class="col-sm-12">
-                                                                            <label for="userName-2" class="block">Department *</label>
+                                                                            <label for="userName-2" class="block">Department</label>
                                                                         </div>
                                                                         <div class="col-sm-12">
                                                                             <select class="js-example-disabled-results col-sm-12" name="department" id="department" required>
@@ -145,65 +157,54 @@
                                                                             </select>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="form-group row">
-                                                                        <div class="col-sm-12">
-                                                                            <label for="userName-2" class="block">Email *</label>
-                                                                        </div>
-                                                                        <div class="col-sm-12">
-                                                                            <input type="email" id="email" name="email" autocomplete="off" class="form-control" placeholder="" value="<?php echo isset($row['email']) ? $row['email'] : ''; ?>">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <div class="col-sm-12">
-                                                                            <label for="userName-2" class="block">Password *</label>
-                                                                        </div>
-                                                                        <div class="col-sm-12">
-                                                                            <input type="password" placeholder="**********" id="password" name="password" autocomplete="off" class="form-control">
-                                                                            <label for="userName" class="block" style="font-style: italic; font-size: 12px;">Leave this blank if you don't want to change password</label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <div class="col-sm-12">
-                                                                            <label for="userName-2" class="block">Confirm Password *</label>
-                                                                        </div>
-                                                                        <div class="col-sm-12">
-                                                                            <input type="password" placeholder="**********" id="c_password" name="c_password" autocomplete="off" class="form-control">
-                                                                        </div>
-                                                                    </div>
                                                                     <?php if(isset($row) && !empty($row)): ?>
                                                                         <div></div>
                                                                     <?php else: ?>
-                                                                        <h4 class="sub-title">User Type</h4>
+                                                                        <h4 class="sub-title">Priority</h4>
                                                                         <div class="form-group row">
                                                                             <div class="col-sm-12">
                                                                                 <div class="form-radio">
                                                                                     <div class="radio radiofill radio-inline">
                                                                                         <label>
-                                                                                            <input type="radio" name="userType" value="2" checked="checked">
-                                                                                            <i class="helper"></i>Staff
+                                                                                            <input type="radio" name="priority" value="Highest" checked="checked">
+                                                                                            <i class="helper"></i>Highest
                                                                                         </label>
                                                                                     </div>
                                                                                     <div class="radio radiofill radio-inline">
                                                                                         <label>
-                                                                                            <input type="radio" name="userType" value="1">
-                                                                                            <i class="helper"></i>Admin
+                                                                                            <input type="radio" name="priority" value="High">
+                                                                                            <i class="helper"></i>High
                                                                                         </label>
                                                                                     </div>
-                                                                                    
+                                                                                    <div class="radio radiofill radio-inline">
+                                                                                        <label>
+                                                                                            <input type="radio" name="priority" value="Normal">
+                                                                                            <i class="helper"></i>Normal
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <div class="radio radiofill radio-inline">
+                                                                                        <label>
+                                                                                            <input type="radio" name="priority" value="Low">
+                                                                                            <i class="helper"></i>Low
+                                                                                        </label>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                 <?php endif; ?>                
+                                                                 <?php endif; ?>
                                                             </div>
                                                        </div>
                                                        <label class="col-sm-5"></label>
+                                                       <div class="form-group">
+                                                            <textarea name="description" id="summernote" cols="30" rows="10" class="form-control summernote"><?php echo isset($row['description']) ? $row['description'] : ''; ?></textarea>   
+                                                       </div>
                                                        <div class="row">
                                                             <label class="col-sm-5"></label>
                                                             <div class="col-sm-5">
                                                                 <?php if(isset($row) && !empty($row)): ?>
-                                                                    <button id="staff-update" type="submit" class="btn btn-primary m-b-0">Update</button>
+                                                                    <button id="tickets-update" type="submit" class="btn btn-primary m-b-0">Update</button>
                                                                 <?php else: ?>
-                                                                    <button id="staff-add" type="submit" class="btn btn-primary m-b-0">Submit</button>
+                                                                    <button id="tickets-add" type="submit" class="btn btn-primary m-b-0">Submit</button>
                                                                 <?php endif; ?>
                                                             </div>
                                                        </div>
@@ -238,28 +239,20 @@
         gtag('config', 'UA-23581568-13');
     </script>
     <script>
-        $('#staff-update').click(function(event){
+        $('#tickets-update').click(function(event){
             event.preventDefault(); // prevent the default form submission
             (async () => {
                 var data = {
                     id: <?php echo isset($_GET['id']) ? $_GET['id'] : 'null'; ?>,
-                    firstname: $('#firstname').val(),
-                    middlename: $('#middlename').val(),
-                    lastname: $('#lastname').val(),
-                    contact: $('#contact').val(),
-                    address: $('#address').val(),
+                    subject: $('#subject').val(),
+                    description: $('#summernote').summernote('code'), // get the HTML content of Summernote
                     department: $('#department').val(),
-                    email: $('#email').val(),
-                    password: $('#password').val(),
-                    c_password: $('#c_password').val(),
-                    userType: $('input[name="userType"]:checked').val(),
-                    action: "updateStaff",
+                    customer: $('#customer').val(),
+                    action: "tickets-update",
                 };
 
-                if (data.firstname.trim() === '' || data.lastname.trim() === '' || 
-                    data.contact.trim() === '' || data.address.trim() === '' || 
-                    data.department.trim() === '' || data.email.trim() === '' ||
-                    data.userType === '') {
+                if (data.subject.trim() === '' || data.description.trim() === '' || 
+                    data.department.trim() === '' || data.customer.trim() === '') {
                     Swal.fire({
                         icon: 'warning',
                         text: 'Please all fieds are required. Kindly fill all',
@@ -268,18 +261,9 @@
                     });
                     return;
                 }
-                if (data.password.trim() !== data.c_password.trim()) {
-                    Swal.fire({
-                        icon: 'warning',
-                        text: 'Password and Confirm Password do not match',
-                        confirmButtonColor: '#ffc107',
-                        confirmButtonText: 'OK'
-                    });
-                    return;
-                }
                 console.log('Data HERE: ' + JSON.stringify(data));
                 $.ajax({
-                    url: 'staff_functions.php',
+                    url: 'ticket_functions.php',
                     type: 'post',
                     data: data,
                     success:function(response){
@@ -295,7 +279,7 @@
                                 confirmButtonText: 'OK'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    window.location.href = "staff_list.php";
+                                    window.location.href = "ticket_list.php";
                                     // location.reload();
                                 }
                             });
@@ -318,28 +302,22 @@
         })
     </script>
     <script>
-        $('#staff-add').click(function(event){
+        $('#tickets-add').click(function(event){
             event.preventDefault(); // prevent the default form submission
             (async () => {
                 var data = {
-                    firstname: $('#firstname').val(),
-                    middlename: $('#middlename').val(),
-                    lastname: $('#lastname').val(),
-                    contact: $('#contact').val(),
-                    address: $('#address').val(),
+                    subject: $('#subject').val(),
+                    description: $('#summernote').summernote('code'), // get the HTML content of Summernote
+                    priority: $('input[name="priority"]:checked').val(),
                     department: $('#department').val(),
-                    email: $('#email').val(),
-                    password: $('#password').val(),
-                    c_password: $('#c_password').val(),
-                    userType: $('input[name="userType"]:checked').val(),
-                    action: "staff-add",
+                    customer: $('#customer').val(),
+                    status: 0, // set initial status to 0
+                    action: "tickets-add",
                 };
 
-                if (data.firstname.trim() === '' || data.lastname.trim() === '' || 
-                    data.contact.trim() === '' || data.address.trim() === '' || 
-                    data.department.trim() === '' || data.email.trim() === '' || 
-                    data.password.trim() === '' || data.c_password.trim() === '' ||
-                    data.userType === '') {
+                if (data.subject === '' || data.description === '' || 
+                    data.priority === '' || data.department === '' || 
+                    data.customer === '') {
                     Swal.fire({
                         icon: 'warning',
                         text: 'Please all fieds are required. Kindly fill all',
@@ -348,18 +326,9 @@
                     });
                     return;
                 }
-                if (data.password.trim() !== data.c_password.trim()) {
-                    Swal.fire({
-                        icon: 'warning',
-                        text: 'Password and Confirm Password do not match',
-                        confirmButtonColor: '#ffc107',
-                        confirmButtonText: 'OK'
-                    });
-                    return;
-                }
                 console.log('Data HERE: ' + JSON.stringify(data));
                 $.ajax({
-                    url: 'staff_functions.php',
+                    url: 'ticket_functions.php',
                     type: 'post',
                     data: data,
                     success:function(response){
@@ -396,6 +365,27 @@
             })()
         })
     </script>
+    <!-- Summernote JS - CDN Link -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#summernote").summernote({
+                height: 300,
+                toolbar: [
+                    [ 'style', [ 'style' ] ],
+                    [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+                    [ 'fontname', [ 'fontname' ] ],
+                    [ 'fontsize', [ 'fontsize' ] ],
+                    [ 'color', [ 'color' ] ],
+                    [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
+                    [ 'table', [ 'table' ] ],
+                    [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
+                ]
+            });
+            $('.dropdown-toggle').dropdown();
+        });
+    </script>
+    <!-- //Summernote JS - CDN Link -->
  </body>
 
 </html>

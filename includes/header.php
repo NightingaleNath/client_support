@@ -39,6 +39,12 @@
     <script src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css"></script>
+
+    <!-- Summernote CSS - CDN Link -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <!-- //Summernote CSS - CDN Link -->
+    
 </head>
 <?php include('config.php'); ?>
 <?php include('session.php');?>

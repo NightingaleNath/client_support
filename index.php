@@ -53,7 +53,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group form-primary">
-                                        <input type="text" id="username" name="username" class="form-control" required="" placeholder="Your Email Address">
+                                        <input type="email" id="email" name="email" class="form-control" required="" placeholder="Your Email Address">
                                         <span class="form-bar"></span>
                                     </div>
                                     <div class="form-group form-primary">

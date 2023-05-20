@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Africa/Accra');
 include('../includes/config.php');
 
 function updateStaffRecords($id, $firstname, $lastname, $middlename, $contact, $address, $department, $email, $password) {
@@ -33,10 +34,11 @@ function updateStaffRecords($id, $firstname, $lastname, $middlename, $contact, $
     }
 }
 
-function addStaffRecord($firstname, $lastname, $middlename, $contact, $address, $department, $email, $password) {
+function addStaffRecord($firstname, $lastname, $middlename, $contact, $address, $department, $email, $password, $userType) {
     global $conn;
 
-    if (empty($department) || empty($firstname) || empty($lastname) || empty($contact) || empty($address) || empty($email) || empty($password)) {
+    if (empty($department) || empty($firstname) || empty($lastname) || empty($contact) || 
+        empty($address) || empty($email) || empty($password) || empty($userType)) {
         $response = array('status' => 'error', 'message' => 'Please fill in all required fields');
         echo json_encode($response);
         exit;
@@ -57,8 +59,8 @@ function addStaffRecord($firstname, $lastname, $middlename, $contact, $address, 
     }
 
     $password_param = md5($password);
-    $stmt = mysqli_prepare($conn, "INSERT INTO staff (department_id, firstname, lastname, middlename, contact, address, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    mysqli_stmt_bind_param($stmt, 'isssssss', $department, $firstname, $lastname, $middlename, $contact, $address, $email, $password_param);
+    $stmt = mysqli_prepare($conn, "INSERT INTO staff (department_id, firstname, lastname, middlename, contact, address, email, password, user_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    mysqli_stmt_bind_param($stmt, 'isssssssi', $department, $firstname, $lastname, $middlename, $contact, $address, $email, $password_param, $userType);
     $result = mysqli_stmt_execute($stmt);
 
     if ($result) {
@@ -115,7 +117,8 @@ if(isset($_POST['action'])) {
         $department = $_POST['department'];
         $email = $_POST['email'];
         $password = $_POST['password'];
-        $response = addStaffRecord($firstname, $lastname, $middlename, $contact, $address, $department, $email, $password);
+        $userType = $_POST['userType'];
+        $response = addStaffRecord($firstname, $lastname, $middlename, $contact, $address, $department, $email, $password, $userType);
         echo $response;
 
     } elseif ($_POST['action'] === 'delete-staff') {

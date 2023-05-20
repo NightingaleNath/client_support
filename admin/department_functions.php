@@ -1,4 +1,5 @@
 <?php 
+date_default_timezone_set('Africa/Accra');
 include('../includes/config.php');
 
 function updateDepartment($id, $dname, $description) {

@@ -132,7 +132,7 @@
         gtag('config', 'UA-23581568-13');
     </script>
 
-     <script type="text/javascript">
+    <script type="text/javascript">
         $('.delete-customer').click(function(){
             (async () => {
                 const { value: formValues } = await Swal.fire({
