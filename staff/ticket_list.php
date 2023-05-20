@@ -1,6 +1,5 @@
 <?php include('../includes/header.php')?>
 <?php include('../includes/utils.php')?>
-<?php $_SESSION['locked_page'] = basename($_SERVER['PHP_SELF']);?>
 <body>
     <Style>
         .faq-progress .progress {
@@ -32,7 +31,6 @@
         }
 
     </Style>
-    
 <!-- Pre-loader start -->
  <?php include('../includes/loader.php')?>
 <!-- Pre-loader end -->
@@ -68,7 +66,7 @@
                                             <div class="page-header-breadcrumb">
                                                 <ul class="breadcrumb-title">
                                                     <li class="breadcrumb-item">
-                                                        <a href="index.php"> <i class="feather icon-home"></i> </a>
+                                                        <a href="#"> <i class="feather icon-home"></i> </a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -84,14 +82,9 @@
                                             <div class="col-xl-3 col-lg-12 push-xl-9">
                                                 <!-- Search box card start -->
                                                 <div class="card">
-                                                    <div class="card-header">
-                                                        <h5 class="card-header-text">Search Box</h5>
-                                                    </div>
+                                                    
                                                     <div class="card-block p-t-10">
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control" placeholder="Search here...">
-                                                            <span class="input-group-addon" id="basic-addon1"><i class="icofont icofont-search"></i></span>
-                                                        </div>
+                                                        
                                                         <div class="task-right">
                                                             <div class="task-right-header-status">
                                                                 <span data-toggle="collapse">Ticket Status</span>
@@ -131,23 +124,18 @@
                                                             <!-- end of task-board-right progress -->
                                                             <!-- start task right users -->
                                                             <div class="task-right-header-users">
-                                                                <span data-toggle="collapse">Department With Ticket</span>
+                                                                <span data-toggle="collapse">All Departments</span>
                                                                 <i class="icofont icofont-rounded-down f-right"></i>
                                                             </div>
                                                             <div class="user-box assign-user taskboard-right-users">
                                                                 <?php
-                                                                $query = "SELECT d.id, d.name, COUNT(t.id) AS ticket_count
-                                                                    FROM departments d
-                                                                    LEFT JOIN tickets t ON t.department_id = d.id
-                                                                    GROUP BY d.id
-                                                                    HAVING ticket_count > 0";
+                                                                $query = "SELECT id, name FROM departments";
 
                                                                 $result = mysqli_query($conn, $query);
 
                                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                                     $department_id = $row['id'];
                                                                     $department_name = $row['name'];
-                                                                    $ticket_count = $row['ticket_count'];
                                                                     
                                                                     echo '<div class="user-box assign-user taskboard-right-users">';
                                                                     echo '<div class="media" style="margin: 5px;">';
@@ -192,28 +180,31 @@
                                                 $status = isset($_GET['status']) ? $_GET['status'] : null;
                                                 $timeRange = isset($_GET['timeRange']) ? $_GET['timeRange'] : null;
 
+                                                $session_department_id = $_SESSION['department_id'];
+
                                                 $query = "SELECT t.id, t.subject, t.description, t.status, t.priority, t.date_created, c.firstname, c.lastname, d.name
                                                         FROM tickets t
                                                         JOIN customers c ON t.customer_id = c.id
-                                                        JOIN departments d ON t.department_id = d.id ";
+                                                        JOIN departments d ON t.department_id = d.id 
+                                                        WHERE t.department_id = ?";
 
                                                 $where = "";
                                                 if (isset($timeRange)) {
                                                     switch ($timeRange) {
                                                         case 'today':
-                                                            $where = " WHERE DATE(t.date_created) = CURDATE()";
+                                                            $where = " AND DATE(t.date_created) = CURDATE()";
                                                             break;
                                                         case 'yesterday':
-                                                            $where = " WHERE DATE(t.date_created) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)";
+                                                            $where = " AND DATE(t.date_created) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)";
                                                             break;
                                                         case 'this-week':
-                                                            $where = " WHERE WEEK(t.date_created) = WEEK(NOW()) AND YEAR(t.date_created) = YEAR(NOW())";
+                                                            $where = " AND WEEK(t.date_created) = WEEK(NOW()) AND YEAR(t.date_created) = YEAR(NOW())";
                                                             break;
                                                         case 'this-month':
-                                                            $where = " WHERE MONTH(t.date_created) = MONTH(NOW()) AND YEAR(t.date_created) = YEAR(NOW())";
+                                                            $where = " AND MONTH(t.date_created) = MONTH(NOW()) AND YEAR(t.date_created) = YEAR(NOW())";
                                                             break;
                                                         case 'this-year':
-                                                            $where = " WHERE YEAR(t.date_created) = YEAR(NOW())";
+                                                            $where = " AND YEAR(t.date_created) = YEAR(NOW())";
                                                             break;
                                                         default:
                                                             $where = "";
@@ -223,28 +214,22 @@
                                                 if ($status !== null) {
                                                     switch ($status) {
                                                         case 'open':
-                                                            $statusWhere = "(t.status = 0)";
+                                                            $statusWhere = " AND (t.status = 0)";
                                                             break;
                                                         case 'processing':
-                                                            $statusWhere = "(t.status = 1)";
+                                                            $statusWhere = " AND (t.status = 1)";
                                                             break;
                                                         case 'resolved':
-                                                            $statusWhere = "(t.status = 2)";
+                                                            $statusWhere = " AND (t.status = 2)";
                                                             break;
                                                         case 'closed':
-                                                            $statusWhere = "(t.status = 3)";
+                                                            $statusWhere = " AND (t.status = 3)";
                                                             break;
                                                         default:
                                                             $statusWhere = "";
                                                             break;
                                                     }
-                                                    if ($statusWhere) {
-                                                        if ($where) {
-                                                            $where .= " AND " . $statusWhere;
-                                                        } else {
-                                                            $where = "WHERE " . $statusWhere;
-                                                        }
-                                                    }
+                                                    $where .= $statusWhere;
                                                 }
                                                 
                                                 $query .= $where;
@@ -253,6 +238,9 @@
                                                 if (!$stmt) {
                                                     die('Error preparing statement: ' . mysqli_error($conn));
                                                 }
+                                                // Bind the department ID value to the prepared statement
+                                                mysqli_stmt_bind_param($stmt, "i", $session_department_id);
+                                                
                                                 $result = mysqli_stmt_execute($stmt);
                                                 if (!$result) {
                                                     die('Error executing statement: ' . mysqli_stmt_error($stmt));
@@ -314,7 +302,7 @@
                                                         </li>
                                                         <!-- end of by status dropdown -->
                                                     </ul>
-                                                    <div class="nav-item nav-grid">
+                                                    <!-- <div class="nav-item nav-grid">
                                                         <span class="m-r-15">View Mode: </span>
                                                         <button type="button" class="btn btn-sm btn-primary waves-effect waves-light m-r-10" data-toggle="tooltip" data-placement="top" title="list view">
                                                             <i class="icofont icofont-listine-dots"></i>
@@ -322,7 +310,7 @@
                                                         <button type="button" class="btn btn-sm btn-primary waves-effect waves-light" data-toggle="tooltip" data-placement="top" title="grid view">
                                                             <i class="icofont icofont-table"></i>
                                                         </button>
-                                                    </div>
+                                                    </div> -->
                                                     <!-- end of by priority dropdown -->
 
                                                 </nav>
@@ -378,15 +366,9 @@
                                                                 </div>
                                                                 <div class="task-board">
                                                                     <div class="dropdown-secondary dropdown">
-                                                                        <button id="priority-dropdown" class="btn btn-primary btn-mini dropdown-toggle waves-effect waves-light" type="button" id="dropdown1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        <button id="priority-dropdown" class="btn btn-primary btn-mini waves-effect waves-light" type="button" id="dropdown1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                             <?php echo $result['priority']; ?>
                                                                         </button>
-                                                                        <div class="dropdown-menu" aria-labelledby="dropdown1" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                                                            <a class="dropdown-priority dropdown-item waves-light waves-effect <?php echo $result['priority'] == 'Highest' ? 'active' : ''; ?>" href="#!" data-priority="Highest" data-ticket-id="<?php echo $result['id']; ?>"><span class="point-marker bg-danger"></span>Highest priority</a>
-                                                                            <a class="dropdown-priority dropdown-item waves-light waves-effect <?php echo $result['priority'] == 'High' ? 'active' : ''; ?>" href="#!" data-priority="High" data-ticket-id="<?php echo $result['id']; ?>"><span class="point-marker bg-warning"></span>High priority</a>
-                                                                            <a class="dropdown-priority dropdown-item waves-light waves-effect <?php echo $result['priority'] == 'Normal' ? 'active' : ''; ?>" href="#!" data-priority="Normal" data-ticket-id="<?php echo $result['id']; ?>"><span class="point-marker bg-success"></span>Normal priority</a>
-                                                                            <a class="dropdown-priority dropdown-item waves-light waves-effect <?php echo $result['priority'] == 'Low' ? 'active' : ''; ?>" href="#!" data-priority="Low" data-ticket-id="<?php echo $result['id']; ?>"><span class="point-marker bg-info"></span>Low priority</a>
-                                                                        </div>
                                                                     </div>
                                                                     <div class="dropdown-secondary dropdown">
                                                                         <button id="status-dropdown" class="btn btn-default btn-mini dropdown-toggle waves-light b-none txt-muted" type="button" id="dropdown2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -404,10 +386,7 @@
                                                                     <div class="dropdown-secondary dropdown">
                                                                         <button class="btn btn-default btn-mini dropdown-toggle waves-light b-none txt-muted" type="button" id="dropdown3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icofont icofont-navigation-menu"></i></button>
                                                                         <div class="dropdown-menu" aria-labelledby="dropdown3" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                                                            <a class="dropdown-item waves-light waves-effect" href="new_ticket.php?id=<?php echo $result['id']; ?>&edit=1"><i class="icofont icofont-ui-edit"></i> Edit Ticket</a>
-                                                                            <div class="dropdown-divider"></div>
-                                                                            <a class="dropdown-item waves-light waves-effect" href="ticket_details.php?id=<?php echo $result['id']; ?>&edit=1"><i class="icofont icofont-spinner-alt-5"></i> View Ticket</a>
-                                                                            <a class="remove-ticket dropdown-item waves-light waves-effect" href="#!" data-ticket-id="<?php echo $result['id']; ?>"><i class="icofont icofont-close-line"></i> Remove</a>
+                                                                            <a class="dropdown-item waves-light waves-effect" href="../admin/ticket_details.php?id=<?php echo $result['id']; ?>&edit=1"><i class="icofont icofont-spinner-alt-5"></i> View Ticket</a>
                                                                         </div>
                                                                         <!-- end of dropdown menu -->
                                                                     </div>
@@ -443,13 +422,19 @@
     <!-- Required Jquery -->
     <?php
         // Query database for count of each priority level
+        $departmentId = $_SESSION['department_id'];
         $query = "SELECT
             SUM(CASE WHEN priority = 'Highest' THEN 1 ELSE 0 END) AS highest_count,
             SUM(CASE WHEN priority = 'High' THEN 1 ELSE 0 END) AS high_count,
             SUM(CASE WHEN priority = 'Normal' THEN 1 ELSE 0 END) AS normal_count,
             SUM(CASE WHEN priority = 'Low' THEN 1 ELSE 0 END) AS low_count
-          FROM tickets";
-        $result = mysqli_query($conn, $query);
+          FROM tickets 
+          WHERE department_id = ?";
+
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "i", $departmentId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
         $row = mysqli_fetch_assoc($result);
 
         $highest_count = $row['highest_count'];

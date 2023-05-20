@@ -42,9 +42,7 @@
                     <!-- Authentication card start -->
 
                         <form method="POST" action="login.php"class="md-float-material form-material">
-                            <div class="text-center">
-                                <img src=".\files\assets\images\logo.png" alt="logo.png">
-                            </div>
+                            
                             <div class="auth-box card">
                                 <div class="card-block">
                                     <div class="row m-b-20">
@@ -80,15 +78,7 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <p class="text-inverse text-left m-b-0">Thank you.</p>
-                                            <p class="text-inverse text-left"><a href="index-1.htm"><b class="f-w-600">Back to website</b></a></p>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <img src=".\files\assets\images\auth\Logo-small-bottom.png" alt="small-logo.png">
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </form>

@@ -64,15 +64,15 @@
             <ul class="show-notification profile-notification dropdown-menu"
                 data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
                 <li>
-                    <a href="user-profile.htm">
+                    <a href="user_profile.php">
                         <i class="feather icon-user"></i> Profile
                     </a>
                 </li>
-                <li>
-                    <a href="auth-lock-screen.htm">
+                <!-- <li>
+                    <a href="../lock_screen.php">
                         <i class="feather icon-lock"></i> Lock Screen
                     </a>
-                </li>
+                </li> -->
                 <li>
                     <a href="../logout.php">
                         <i class="feather icon-log-out"></i> Logout

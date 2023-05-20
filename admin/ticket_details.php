@@ -151,18 +151,20 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                    <div class="card-footer">
-                                                        <div>
-                                                            <div class="dropdown-secondary dropdown d-inline-block">
-                                                                <button class="btn btn-sm btn-primary dropdown-toggle waves-light" type="button" id="dropdown3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icofont icofont-navigation-menu"></i></button>
-                                                                <div class="dropdown-menu" aria-labelledby="dropdown3" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                                                    <a class="dropdown-item waves-light waves-effect" href="new_ticket.php?id=<?= $id ?>&edit=1"><i class="icofont icofont-edit-alt m-r-10"></i>Edit task</a>
-                                                                    <a class="remove-ticket dropdown-item waves-light waves-effect" href="#!"><i class="icofont icofont-close m-r-10"></i>Remove</a>
+                                                    <?php if ($_SESSION['srole'] == 1): ?>
+                                                        <div class="card-footer">
+                                                            <div>
+                                                                <div class="dropdown-secondary dropdown d-inline-block">
+                                                                    <button class="btn btn-sm btn-primary dropdown-toggle waves-light" type="button" id="dropdown3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icofont icofont-navigation-menu"></i></button>
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdown3" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                                                        <a class="dropdown-item waves-light waves-effect" href="new_ticket.php?id=<?= $id ?>&edit=1"><i class="icofont icofont-edit-alt m-r-10"></i>Edit task</a>
+                                                                        <a class="remove-ticket dropdown-item waves-light waves-effect" href="#!"><i class="icofont icofont-close m-r-10"></i>Remove</a>
+                                                                    </div>
+                                                                    <!-- end of dropdown menu -->
                                                                 </div>
-                                                                <!-- end of dropdown menu -->
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
 

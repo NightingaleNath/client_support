@@ -15,8 +15,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $staffCount = mysqli_num_rows($staffQuery);
         if ($staffCount > 0) {
-            // Staff user exists, set session variables and redirect to staff/admin page based on user type
+            // Staff user exists, check lock_unlock status
             $recordsRow = mysqli_fetch_assoc($staffQuery);
+            if ($recordsRow['lock_unlock'] == "true") {
+                // User is locked, display error message
+                echo "<script>alert('Your account is locked. Please unlock it using your email or contact an admin for assistance.'); window.location = 'lock_screen.php'</script>";
+                exit;
+            }
+
+            // Set session variables and redirect to staff/admin page based on user type
             $_SESSION['slogin'] = $recordsRow['id'];
             $_SESSION['srole'] = $recordsRow['user_type'];
             $_SESSION['semail'] = $recordsRow['email'];
@@ -27,9 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['saddress'] = $recordsRow['address'];
 
             if ($recordsRow['user_type'] == '1') {
+                $_SESSION['department_id'] = $recordsRow['department_id'];
                 echo "<script>alert('Successfully logged in as admin'); window.location = 'admin/index.php'</script>";
             } elseif ($recordsRow['user_type'] == '2') {
-                echo "<script>alert('Successfully logged in as staff'); window.location = 'admin/index.php'</script>";
+                $_SESSION['department_id'] = $recordsRow['department_id'];
+                echo "<script>alert('Successfully logged in as staff'); window.location = 'staff/ticket_list.php'</script>";
             } else {
                 echo "<script>alert('Invalid user type'); window.location = 'index.php'</script>";
             }
@@ -42,8 +51,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $customerCount = mysqli_num_rows($customerQuery);
                 if ($customerCount > 0) {
-                    // Customer user exists, set session variables and redirect to customer page
+                    // Customer user exists, check lock_unlock status
                     $recordsRow = mysqli_fetch_assoc($customerQuery);
+                    if ($recordsRow['lock_unlock'] == "true") {
+                        // User is locked, display error message
+                        echo "<script>alert('Your account is locked. Please unlock it using your email or contact an admin for assistance.'); window.location = 'lock_screen.php'</script>";
+                        exit;
+                    }
+
+                    // Set session variables and redirect to customer page
                     $_SESSION['slogin'] = $recordsRow['id'];
                     $_SESSION['srole'] = $recordsRow['user_type'];
                     $_SESSION['semail'] = $recordsRow['email'];
