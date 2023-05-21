@@ -1,13 +1,33 @@
 <?php
- session_start(); 
-//Check whether the session variable SESS_MEMBER_ID is present or not
-if (!isset($_SESSION['slogin']) || (trim($_SESSION['slogin']) == '')) { ?>
-<script>
-window.location = "../index.php";
-</script>
-<?php
+session_start();
+
+// Check whether the session variable SESS_MEMBER_ID is present or not
+if (!isset($_SESSION['slogin']) || (trim($_SESSION['slogin']) == '')) {
+    // Redirect to the login page
+    header("Location: ../index.php");
+    exit;
 }
-$session_id= $_SESSION['slogin'];
+
+// Check if the session has expired
+$lastActivity = $_SESSION['last_activity'];
+$sessionExpiration = 60 * 5; // Session expires after 30 minutes of inactivity
+
+if (time() - $lastActivity > $sessionExpiration) {
+    // Session has expired, destroy the session and redirect to the login page
+    session_unset();
+    session_destroy();
+    
+    echo "<script>alert('Your session has expired. Please log in again.');</script>";
+
+    // Redirect to the login page
+    echo "<script>window.location = '../index.php';</script>";
+    exit;
+}
+
+// Update the last activity time
+$_SESSION['last_activity'] = time();
+
+$session_id = $_SESSION['slogin'];
 $session_role = $_SESSION['srole'];
 $session_semail = $_SESSION['semail'];
 $session_sfirstname = $_SESSION['sfirstname'];

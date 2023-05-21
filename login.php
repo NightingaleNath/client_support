@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['smiddlename'] = $recordsRow['middlename'];
             $_SESSION['scontact'] = $recordsRow['contact'];
             $_SESSION['saddress'] = $recordsRow['address'];
+            $_SESSION['last_activity'] = time(); // Set the last activity time
 
             if ($recordsRow['user_type'] == '1') {
                 $_SESSION['department_id'] = $recordsRow['department_id'];
@@ -68,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['smiddlename'] = $recordsRow['middlename'];
                     $_SESSION['scontact'] = $recordsRow['contact'];
                     $_SESSION['saddress'] = $recordsRow['address'];
+                    $_SESSION['last_activity'] = time(); // Set the last activity time
                     echo "<script>alert('Successfully logged in as customer'); window.location = 'customer/ticket_list.php'</script>";
                 } else {
                     // User doesn't exist, display error message

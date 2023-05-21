@@ -317,9 +317,14 @@
                                                 <!-- Nav Filter tab end -->
                                                 <!-- Task board design block start-->
                                                 <div class="row">
-                                                <?php foreach ($results as $result){ ?>
+                                                <?php 
+                                                  if (empty($results)) {
+                                                        // Display image when there are no tickets
+                                                        echo '<div style="width: 100%; height: auto;" class="d-block img-fluid col-sm-12 text-center"><img class="" src="..\files\assets\images\no_data.png" alt="No Tickets Found" style="width: 50%; height: auto;"></div>';
+                                                  } else {
+                                                  foreach ($results as $result){ ?>
                                                     <div class="col-sm-6">
-                                                        <?php
+                                                        
                                                         // Assign color class based on priority
                                                         $color_class = '';
                                                         switch ($result['priority']) {
@@ -397,7 +402,10 @@
                                                             <!-- end of card-footer -->
                                                         </div>
                                                     </div>
-                                                    <?php } ?>
+                                                    <?php 
+                                                    }
+                                                }
+                                                ?>
                                                 </div>
                                                 <!-- Task board design block end -->
                                             </div>
@@ -445,10 +453,10 @@
         $total_count = $highest_count + $high_count + $normal_count + $low_count;
 
         // Calculate percentage width for each loader bar
-        $highest_width = ($highest_count / $total_count) * 100;
-        $high_width = ($high_count / $total_count) * 100;
-        $normal_width = ($normal_count / $total_count) * 100;
-        $low_width = ($low_count / $total_count) * 100;
+        $highest_width = ($total_count != 0) ? ($highest_count / $total_count) * 100 : 0;
+        $high_width = ($total_count != 0) ? ($high_count / $total_count) * 100 : 0;
+        $normal_width = ($total_count != 0) ? ($normal_count / $total_count) * 100 : 0;
+        $low_width = ($total_count != 0) ? ($low_count / $total_count) * 100 : 0;
     ?>
     
     <?php include('../includes/scripts.php')?>
