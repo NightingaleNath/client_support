@@ -66,48 +66,52 @@
                                                                         
                                                                     </div>
                                                                     <div class="form-group row">
-                                                                        <div class="col-sm-12">
-                                                                            <label for="userName-2" class="block">Customer</label>
-                                                                        </div>
-                                                                        <div class="col-sm-12">
-                                                                            <select class="js-example-disabled-results col-sm-12" name="customer" id="customer" required>
-                                                                                <?php
-                                                                                    // Check if we are coming from an edit page and $selected_department_id is not empty
-                                                                                    if (!empty($row['customer_id'])) {
-                                                                                            // Query the database to get the department details
-                                                                                            $stmt = mysqli_prepare($conn, "SELECT id, firstname, middlename, lastname, contact FROM customers WHERE id = ?");
-                                                                                            mysqli_stmt_bind_param($stmt, "i", $row['customer_id']);
-                                                                                            mysqli_stmt_execute($stmt);
-                                                                                             mysqli_stmt_bind_result($stmt, $id, $firstname, $middlename, $lastname, $contact);
-                                                                                            mysqli_stmt_fetch($stmt);
-                                                                                            mysqli_stmt_close($stmt);
-                                                                                            // Output the selected option
-                                                                                            echo '<option value="' . $id . '" selected>' . $firstname . ' ' . $middlename . ' ' . $lastname . '</option>';
-                                                                                            // Output the rest of the options
-                                                                                            $stmt = mysqli_prepare($conn, "SELECT id, firstname, middlename, lastname, contact FROM customers");
-                                                                                            mysqli_stmt_execute($stmt);
-                                                                                            mysqli_stmt_store_result($stmt);
-                                                                                             mysqli_stmt_bind_result($stmt, $id, $firstname, $middlename, $lastname, $contact);
-                                                                                            while (mysqli_stmt_fetch($stmt)) {
+                                                                        <?php if ($_SESSION['srole'] == 1 || $_SESSION['srole'] == 2): ?>
+                                                                            <div class="col-sm-12">
+                                                                                <label for="userName-2" class="block">Customer</label>
+                                                                            </div>
+                                                                            <div class="col-sm-12">
+                                                                                <select class="js-example-disabled-results col-sm-12" name="customer" id="customer" required>
+                                                                                    <?php
+                                                                                        // Check if we are coming from an edit page and $selected_department_id is not empty
+                                                                                        if (!empty($row['customer_id'])) {
+                                                                                                // Query the database to get the department details
+                                                                                                $stmt = mysqli_prepare($conn, "SELECT id, firstname, middlename, lastname, contact FROM customers WHERE id = ?");
+                                                                                                mysqli_stmt_bind_param($stmt, "i", $row['customer_id']);
+                                                                                                mysqli_stmt_execute($stmt);
+                                                                                                mysqli_stmt_bind_result($stmt, $id, $firstname, $middlename, $lastname, $contact);
+                                                                                                mysqli_stmt_fetch($stmt);
+                                                                                                mysqli_stmt_close($stmt);
+                                                                                                // Output the selected option
+                                                                                                echo '<option value="' . $id . '" selected>' . $firstname . ' ' . $middlename . ' ' . $lastname . '</option>';
+                                                                                                // Output the rest of the options
+                                                                                                $stmt = mysqli_prepare($conn, "SELECT id, firstname, middlename, lastname, contact FROM customers");
+                                                                                                mysqli_stmt_execute($stmt);
+                                                                                                mysqli_stmt_store_result($stmt);
+                                                                                                mysqli_stmt_bind_result($stmt, $id, $firstname, $middlename, $lastname, $contact);
+                                                                                                while (mysqli_stmt_fetch($stmt)) {
+                                                                                                    echo '<option value="' . $id . '">' . $firstname . ' ' . $middlename . ' ' . $lastname . '</option>';
+                                                                                                }
+                                                                                                mysqli_stmt_close($stmt);
+                                                                                        } else {
+                                                                                            // Output the first option as "Select department" and disabled
+                                                                                                echo '<option value="" disabled selected>Select customer</option>';
+                                                                                                // Output the rest of the options
+                                                                                                $stmt = mysqli_prepare($conn, "SELECT id, firstname, middlename, lastname, contact FROM customers");
+                                                                                                mysqli_stmt_execute($stmt);
+                                                                                                mysqli_stmt_store_result($stmt);
+                                                                                                mysqli_stmt_bind_result($stmt, $id, $firstname, $middlename, $lastname, $contact);
+                                                                                                while (mysqli_stmt_fetch($stmt)) {
                                                                                                 echo '<option value="' . $id . '">' . $firstname . ' ' . $middlename . ' ' . $lastname . '</option>';
-                                                                                            }
-                                                                                            mysqli_stmt_close($stmt);
-                                                                                    } else {
-                                                                                        // Output the first option as "Select department" and disabled
-                                                                                            echo '<option value="" disabled selected>Select customer</option>';
-                                                                                            // Output the rest of the options
-                                                                                            $stmt = mysqli_prepare($conn, "SELECT id, firstname, middlename, lastname, contact FROM customers");
-                                                                                            mysqli_stmt_execute($stmt);
-                                                                                            mysqli_stmt_store_result($stmt);
-                                                                                            mysqli_stmt_bind_result($stmt, $id, $firstname, $middlename, $lastname, $contact);
-                                                                                            while (mysqli_stmt_fetch($stmt)) {
-                                                                                               echo '<option value="' . $id . '">' . $firstname . ' ' . $middlename . ' ' . $lastname . '</option>';
-                                                                                            }
-                                                                                            mysqli_stmt_close($stmt);
-                                                                                    }
-                                                                                ?>
-                                                                            </select>
-                                                                        </div>
+                                                                                                }
+                                                                                                mysqli_stmt_close($stmt);
+                                                                                        }
+                                                                                    ?>
+                                                                                </select>
+                                                                            </div>
+                                                                        <?php else: ?>
+                                                                            <input type="text" name="customer" id="customer" class="form-control" value="<?php echo isset($row['customer_id']) ? $row['customer_id'] : $_SESSION['slogin']; ?>" hidden>
+                                                                        <?php endif; ?>
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -263,7 +267,7 @@
                 }
                 console.log('Data HERE: ' + JSON.stringify(data));
                 $.ajax({
-                    url: 'ticket_functions.php',
+                    url: '../admin/ticket_functions.php',
                     type: 'post',
                     data: data,
                     success:function(response){
@@ -295,6 +299,8 @@
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.log('AJAX Data HERE: ' + JSON.stringify(data));
                         console.log("Response from server: " + jqXHR.responseText);
+                        console.log("Status:", status);
+                        console.log("Error:", error);
                         console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
                     }
                 });
@@ -328,7 +334,7 @@
                 }
                 console.log('Data HERE: ' + JSON.stringify(data));
                 $.ajax({
-                    url: 'ticket_functions.php',
+                    url: '../admin/ticket_functions.php',
                     type: 'post',
                     data: data,
                     success:function(response){

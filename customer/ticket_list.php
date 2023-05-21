@@ -67,7 +67,7 @@
                                             <div class="page-header-breadcrumb">
                                                 <ul class="breadcrumb-title">
                                                     <li class="breadcrumb-item">
-                                                        <a href="index.php"> <i class="feather icon-home"></i> </a>
+                                                        <a href="#"> <i class="feather icon-home"></i> </a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -83,14 +83,7 @@
                                             <div class="col-xl-3 col-lg-12 push-xl-9">
                                                 <!-- Search box card start -->
                                                 <div class="card">
-                                                    <div class="card-header">
-                                                        <h5 class="card-header-text">Search Box</h5>
-                                                    </div>
                                                     <div class="card-block p-t-10">
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control" placeholder="Search here...">
-                                                            <span class="input-group-addon" id="basic-addon1"><i class="icofont icofont-search"></i></span>
-                                                        </div>
                                                         <div class="task-right">
                                                             <div class="task-right-header-status">
                                                                 <span data-toggle="collapse">Ticket Status</span>
@@ -135,30 +128,31 @@
                                                             </div>
                                                             <div class="user-box assign-user taskboard-right-users">
                                                                 <?php
-                                                                $query = "SELECT d.id, d.name, COUNT(t.id) AS ticket_count
-                                                                    FROM departments d
-                                                                    LEFT JOIN tickets t ON t.department_id = d.id
-                                                                    GROUP BY d.id
-                                                                    HAVING ticket_count > 0";
+                                                                    $query = "SELECT d.id, d.name, COUNT(t.id) AS ticket_count
+                                                                                FROM departments d
+                                                                                LEFT JOIN tickets t ON t.department_id = d.id
+                                                                                WHERE t.customer_id = {$_SESSION['slogin']}
+                                                                                GROUP BY d.id
+                                                                                HAVING ticket_count > 0";
 
-                                                                $result = mysqli_query($conn, $query);
+                                                                    $result = mysqli_query($conn, $query);
 
-                                                                while ($row = mysqli_fetch_assoc($result)) {
-                                                                    $department_id = $row['id'];
-                                                                    $department_name = $row['name'];
-                                                                    $ticket_count = $row['ticket_count'];
-                                                                    
-                                                                    echo '<div class="user-box assign-user taskboard-right-users">';
-                                                                    echo '<div class="media" style="margin: 5px;">';
-                                                                    echo '<div class="media-left">';
-                                                                    echo '<a class="btn btn-outline-primary btn-lg txt-muted btn-icon" href="#!" role="button"><i class="icofont icofont-architecture-alt"></i></a>';
-                                                                    echo '</div>';
-                                                                    echo '<div class="media-body">';
-                                                                    echo '<div class="chat-header" style="margin-top: 5px;">' . $department_name . '</div>';
-                                                                    echo '</div>';
-                                                                    echo '</div>';
-                                                                    echo '</div>';
-                                                                }
+                                                                    while ($row = mysqli_fetch_assoc($result)) {
+                                                                        $department_id = $row['id'];
+                                                                        $department_name = $row['name'];
+                                                                        $ticket_count = $row['ticket_count'];
+                                                                        
+                                                                        echo '<div class="user-box assign-user taskboard-right-users">';
+                                                                        echo '<div class="media" style="margin: 5px;">';
+                                                                        echo '<div class="media-left">';
+                                                                        echo '<a class="btn btn-outline-primary btn-lg txt-muted btn-icon" href="#!" role="button"><i class="icofont icofont-architecture-alt"></i></a>';
+                                                                        echo '</div>';
+                                                                        echo '<div class="media-body">';
+                                                                        echo '<div class="chat-header" style="margin-top: 5px;">' . $department_name . '</div>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                    }
                                                                 ?>
                                                             </div>
                                                             <!-- end of task-board-right users -->
@@ -187,96 +181,102 @@
                                             <!-- Left column start -->
                                             <div class="col-xl-9 col-lg-12 pull-xl-3 filter-bar">
                                                 <!-- Nav Filter tab start -->
-                                              <?php
-                                                $status = isset($_GET['status']) ? $_GET['status'] : null;
-                                                $timeRange = isset($_GET['timeRange']) ? $_GET['timeRange'] : null;
+                                                <?php
+                                                    $status = isset($_GET['status']) ? $_GET['status'] : null;
+                                                    $timeRange = isset($_GET['timeRange']) ? $_GET['timeRange'] : null;
 
-                                                $query = "SELECT t.id, t.subject, t.description, t.status, t.priority, t.date_created, c.firstname, c.lastname, d.name
-                                                        FROM tickets t
-                                                        JOIN customers c ON t.customer_id = c.id
-                                                        JOIN departments d ON t.department_id = d.id ";
+                                                    $query = "SELECT t.id, t.subject, t.description, t.status, t.priority, t.date_created, c.firstname, c.lastname, d.name
+                                                                FROM tickets t
+                                                                JOIN customers c ON t.customer_id = c.id
+                                                                JOIN departments d ON t.department_id = d.id ";
 
-                                                $where = "";
-                                                if (isset($timeRange)) {
-                                                    switch ($timeRange) {
-                                                        case 'today':
-                                                            $where = " WHERE DATE(t.date_created) = CURDATE()";
-                                                            break;
-                                                        case 'yesterday':
-                                                            $where = " WHERE DATE(t.date_created) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)";
-                                                            break;
-                                                        case 'this-week':
-                                                            $where = " WHERE WEEK(t.date_created) = WEEK(NOW()) AND YEAR(t.date_created) = YEAR(NOW())";
-                                                            break;
-                                                        case 'this-month':
-                                                            $where = " WHERE MONTH(t.date_created) = MONTH(NOW()) AND YEAR(t.date_created) = YEAR(NOW())";
-                                                            break;
-                                                        case 'this-year':
-                                                            $where = " WHERE YEAR(t.date_created) = YEAR(NOW())";
-                                                            break;
-                                                        default:
-                                                            $where = "";
-                                                            break;
-                                                    }
-                                                }
-                                                if ($status !== null) {
-                                                    switch ($status) {
-                                                        case 'open':
-                                                            $statusWhere = "(t.status = 0)";
-                                                            break;
-                                                        case 'processing':
-                                                            $statusWhere = "(t.status = 1)";
-                                                            break;
-                                                        case 'resolved':
-                                                            $statusWhere = "(t.status = 2)";
-                                                            break;
-                                                        case 'closed':
-                                                            $statusWhere = "(t.status = 3)";
-                                                            break;
-                                                        default:
-                                                            $statusWhere = "";
-                                                            break;
-                                                    }
-                                                    if ($statusWhere) {
-                                                        if ($where) {
-                                                            $where .= " AND " . $statusWhere;
-                                                        } else {
-                                                            $where = "WHERE " . $statusWhere;
+                                                    $where = "WHERE t.customer_id = ?"; // Add condition for customer ID
+
+                                                    $params = array($_SESSION['slogin']); // Parameters for prepared statement
+
+                                                    if (isset($timeRange)) {
+                                                        switch ($timeRange) {
+                                                            case 'today':
+                                                                $where .= " AND DATE(t.date_created) = CURDATE()";
+                                                                break;
+                                                            case 'yesterday':
+                                                                $where .= " AND DATE(t.date_created) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)";
+                                                                break;
+                                                            case 'this-week':
+                                                                $where .= " AND WEEK(t.date_created) = WEEK(NOW()) AND YEAR(t.date_created) = YEAR(NOW())";
+                                                                break;
+                                                            case 'this-month':
+                                                                $where .= " AND MONTH(t.date_created) = MONTH(NOW()) AND YEAR(t.date_created) = YEAR(NOW())";
+                                                                break;
+                                                            case 'this-year':
+                                                                $where .= " AND YEAR(t.date_created) = YEAR(NOW())";
+                                                                break;
+                                                            default:
+                                                                break;
                                                         }
                                                     }
-                                                }
-                                                
-                                                $query .= $where;
-                                                $query .= " ORDER BY t.date_created DESC";
-                                                $stmt = mysqli_prepare($conn, $query);
-                                                if (!$stmt) {
-                                                    die('Error preparing statement: ' . mysqli_error($conn));
-                                                }
-                                                $result = mysqli_stmt_execute($stmt);
-                                                if (!$result) {
-                                                    die('Error executing statement: ' . mysqli_stmt_error($stmt));
-                                                }
-                                                mysqli_stmt_bind_result($stmt, $id, $subject, $description, $status, $priority, $date_created, $firstname, $lastname, $department_name);
-                                                $results = [];
-                                                while (mysqli_stmt_fetch($stmt)) {
-                                                    $result = [
-                                                        'id' => $id,
-                                                        'subject' => $subject,
-                                                        'description' => $description,
-                                                        'status' => $status,
-                                                        'priority' => $priority,
-                                                        'date_created' => $date_created,
-                                                        'customer_name' => $firstname . ' ' . $lastname,
-                                                        'department_name' => $department_name
-                                                    ];
-                                                    
-                                                    // Calculate time ago
-                                                    $due_label = calculate_time_ago($date_created);
-                                                    $result['due_label'] = $due_label;
-                                                    $results[] = $result;
-                                                }
-                                                mysqli_stmt_close($stmt);
-                                              ?>
+
+                                                    if ($status !== null) {
+                                                        switch ($status) {
+                                                            case 'open':
+                                                                $where .= " AND t.status = 0";
+                                                                break;
+                                                            case 'processing':
+                                                                $where .= " AND t.status = 1";
+                                                                break;
+                                                            case 'resolved':
+                                                                $where .= " AND t.status = 2";
+                                                                break;
+                                                            case 'closed':
+                                                                $where .= " AND t.status = 3";
+                                                                break;
+                                                            default:
+                                                                break;
+                                                        }
+                                                    }
+
+                                                    $query .= $where;
+                                                    $query .= " ORDER BY t.date_created DESC";
+
+                                                    $stmt = mysqli_prepare($conn, $query);
+                                                    if (!$stmt) {
+                                                        die('Error preparing statement: ' . mysqli_error($conn));
+                                                    }
+
+                                                    // Bind parameters to the prepared statement
+                                                    if (count($params) > 0) {
+                                                        $paramTypes = str_repeat('s', count($params));
+                                                        mysqli_stmt_bind_param($stmt, $paramTypes, ...$params);
+                                                    }
+
+                                                    $result = mysqli_stmt_execute($stmt);
+                                                    if (!$result) {
+                                                        die('Error executing statement: ' . mysqli_stmt_error($stmt));
+                                                    }
+
+                                                    mysqli_stmt_bind_result($stmt, $id, $subject, $description, $status, $priority, $date_created, $firstname, $lastname, $department_name);
+                                                    $results = [];
+
+                                                    while (mysqli_stmt_fetch($stmt)) {
+                                                        $result = [
+                                                            'id' => $id,
+                                                            'subject' => $subject,
+                                                            'description' => $description,
+                                                            'status' => $status,
+                                                            'priority' => $priority,
+                                                            'date_created' => $date_created,
+                                                            'customer_name' => $firstname . ' ' . $lastname,
+                                                            'department_name' => $department_name
+                                                        ];
+
+                                                        // Calculate time ago
+                                                        $due_label = calculate_time_ago($date_created);
+                                                        $result['due_label'] = $due_label;
+                                                        $results[] = $result;
+                                                    }
+
+                                                    mysqli_stmt_close($stmt);
+                                                ?>
 
                                                 <nav class="navbar navbar-light bg-faded m-b-30 p-10">
                                                     <ul class="nav navbar-nav">
@@ -313,7 +313,7 @@
                                                         </li>
                                                         <!-- end of by status dropdown -->
                                                     </ul>
-                                                    <div class="nav-item nav-grid">
+                                                    <!-- <div class="nav-item nav-grid">
                                                         <span class="m-r-15">View Mode: </span>
                                                         <button type="button" class="btn btn-sm btn-primary waves-effect waves-light m-r-10" data-toggle="tooltip" data-placement="top" title="list view">
                                                             <i class="icofont icofont-listine-dots"></i>
@@ -321,7 +321,7 @@
                                                         <button type="button" class="btn btn-sm btn-primary waves-effect waves-light" data-toggle="tooltip" data-placement="top" title="grid view">
                                                             <i class="icofont icofont-table"></i>
                                                         </button>
-                                                    </div>
+                                                    </div> -->
                                                     <!-- end of by priority dropdown -->
 
                                                 </nav>
@@ -388,15 +388,9 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="dropdown-secondary dropdown">
-                                                                        <button id="status-dropdown" class="btn btn-default btn-mini dropdown-toggle waves-light b-none txt-muted" type="button" id="dropdown2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        <button id="status-dropdown" class="btn btn-default btn-mini waves-light b-none txt-muted" type="button" id="dropdown2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                             <?php echo $result['status'] == 0 ? 'Open' : ($result['status'] == 1 ? 'Processing' : ($result['status'] == 2 ? 'Resolved' : 'Closed')); ?>
                                                                         </button>
-                                                                        <div class="dropdown-menu" aria-labelledby="dropdown2" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                                                            <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $result['status'] == 0 ? 'active' : ''; ?>" href="#!" data-status="0" data-ticket-id="<?php echo $result['id']; ?>">Open</a>
-                                                                            <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $result['status'] == 1 ? 'active' : ''; ?>" href="#!" data-status="1" data-ticket-id="<?php echo $result['id']; ?>">Processing</a>
-                                                                            <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $result['status'] == 2 ? 'active' : ''; ?>" href="#!" data-status="2" data-ticket-id="<?php echo $result['id']; ?>">Resolved</a>
-                                                                            <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $result['status'] == 3 ? 'active' : ''; ?>" href="#!" data-status="3" data-ticket-id="<?php echo $result['id']; ?>">Closed</a>
-                                                                        </div>
                                                                         <!-- end of dropdown menu -->
                                                                     </div>
                                                                     <!-- end of dropdown-secondary -->
@@ -405,8 +399,7 @@
                                                                         <div class="dropdown-menu" aria-labelledby="dropdown3" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
                                                                             <a class="dropdown-item waves-light waves-effect" href="new_ticket.php?id=<?php echo $result['id']; ?>&edit=1"><i class="icofont icofont-ui-edit"></i> Edit Ticket</a>
                                                                             <div class="dropdown-divider"></div>
-                                                                            <a class="dropdown-item waves-light waves-effect" href="ticket_details.php?id=<?php echo $result['id']; ?>&edit=1"><i class="icofont icofont-spinner-alt-5"></i> View Ticket</a>
-                                                                            <a class="remove-ticket dropdown-item waves-light waves-effect" href="#!" data-ticket-id="<?php echo $result['id']; ?>"><i class="icofont icofont-close-line"></i> Remove</a>
+                                                                            <a class="dropdown-item waves-light waves-effect" href="../admin/ticket_details.php?id=<?php echo $result['id']; ?>&edit=1"><i class="icofont icofont-spinner-alt-5"></i> View Ticket</a>
                                                                         </div>
                                                                         <!-- end of dropdown menu -->
                                                                     </div>
@@ -442,13 +435,19 @@
     <!-- Required Jquery -->
     <?php
         // Query database for count of each priority level
+        $customerId = $_SESSION['slogin'];
         $query = "SELECT
             SUM(CASE WHEN priority = 'Highest' THEN 1 ELSE 0 END) AS highest_count,
             SUM(CASE WHEN priority = 'High' THEN 1 ELSE 0 END) AS high_count,
             SUM(CASE WHEN priority = 'Normal' THEN 1 ELSE 0 END) AS normal_count,
             SUM(CASE WHEN priority = 'Low' THEN 1 ELSE 0 END) AS low_count
-          FROM tickets";
-        $result = mysqli_query($conn, $query);
+          FROM tickets 
+          WHERE customer_id = ?";
+
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "i", $customerId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
         $row = mysqli_fetch_assoc($result);
 
         $highest_count = $row['highest_count'];
@@ -521,7 +520,7 @@
 
                         console.log('Data HERE: ' + JSON.stringify(data));
                         $.ajax({
-                            url: 'ticket_functions.php',
+                            url: '../admin/ticket_functions.php',
                             type: 'post',
                             data: data,
                             success: function(response) {
@@ -596,7 +595,7 @@
 
                         console.log('Data HERE: ' + JSON.stringify(data));
                         $.ajax({
-                            url: 'ticket_functions.php',
+                            url: '../admin/ticket_functions.php',
                             type: 'post',
                             data: data,
                             success: function(response) {
@@ -664,7 +663,7 @@
                 };
                 console.log('Data HERE: ' + JSON.stringify(data));
                 $.ajax({
-                    url: 'ticket_functions.php',
+                    url: '../admin/ticket_functions.php',
                     type: 'post',
                     data: data,
                     success: function(response) {

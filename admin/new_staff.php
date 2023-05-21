@@ -159,7 +159,9 @@
                                                                         </div>
                                                                         <div class="col-sm-12">
                                                                             <input type="password" placeholder="**********" id="password" name="password" autocomplete="off" class="form-control">
-                                                                            <label for="userName" class="block" style="font-style: italic; font-size: 12px;">Leave this blank if you don't want to change password</label>
+                                                                            <?php if(isset($row) && !empty($row)): ?>
+                                                                                <label for="userName" class="block" style="font-style: italic; font-size: 12px;">Leave this blank if you don't want to change password</label>
+                                                                            <?php endif; ?>
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group row">

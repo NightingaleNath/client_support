@@ -507,7 +507,7 @@
 
                         console.log('Data HERE: ' + JSON.stringify(data));
                         $.ajax({
-                            url: 'ticket_functions.php',
+                            url: '../admin/ticket_functions.php',
                             type: 'post',
                             data: data,
                             success: function(response) {
@@ -582,7 +582,7 @@
 
                         console.log('Data HERE: ' + JSON.stringify(data));
                         $.ajax({
-                            url: 'ticket_functions.php',
+                            url: '../admin/ticket_functions.php',
                             type: 'post',
                             data: data,
                             success: function(response) {
@@ -650,7 +650,7 @@
                 };
                 console.log('Data HERE: ' + JSON.stringify(data));
                 $.ajax({
-                    url: 'ticket_functions.php',
+                    url: '../admin/ticket_functions.php',
                     type: 'post',
                     data: data,
                     success: function(response) {

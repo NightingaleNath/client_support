@@ -1,5 +1,6 @@
 <?php
 date_default_timezone_set('Africa/Accra');
+session_start();
 include('../includes/config.php');
 
 function addTicket($subject, $description, $status, $priority, $department_id, $customer_id) {
@@ -13,12 +14,18 @@ function addTicket($subject, $description, $status, $priority, $department_id, $
 
     $status = 0; // Set initial status to 0
     $date_created = date('Y-m-d H:i:s');
+    
+    if ($_SESSION['srole'] == 1 || $_SESSION['srole'] == 2) {
+        $loginID = $_SESSION['slogin'];
+    } else {
+        $loginID = 0;
+    }
 
     // Sanitize and encode the description
     $description = htmlentities(str_replace("'","&#x2019;", $description));
 
-    $stmt = mysqli_prepare($conn, "INSERT INTO tickets (subject, description, status, priority, department_id, customer_id, date_created) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    mysqli_stmt_bind_param($stmt, 'ssisiis', $subject, $description, $status, $priority, $department_id, $customer_id, $date_created);
+    $stmt = mysqli_prepare($conn, "INSERT INTO tickets (subject, description, status, priority, department_id, customer_id, admin_id, date_created) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    mysqli_stmt_bind_param($stmt, 'ssisiiis', $subject, $description, $status, $priority, $department_id, $customer_id, $loginID, $date_created);
     $result = mysqli_stmt_execute($stmt);
 
     if ($result) {

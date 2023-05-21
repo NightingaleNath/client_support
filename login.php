@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['smiddlename'] = $recordsRow['middlename'];
                     $_SESSION['scontact'] = $recordsRow['contact'];
                     $_SESSION['saddress'] = $recordsRow['address'];
-                    echo "<script>alert('Successfully logged in as customer'); window.location = 'customer/index.php'</script>";
+                    echo "<script>alert('Successfully logged in as customer'); window.location = 'customer/ticket_list.php'</script>";
                 } else {
                     // User doesn't exist, display error message
                     echo "<script>alert('Invalid Details'); window.location = 'index.php'</script>";

@@ -75,8 +75,8 @@ include('includes/config.php');
     // Debug information
     // echo "Lock Unlock: " . ($lockUnlock ? 'true' : 'false') . "<br>";
     // echo "Lock Unlock: " . ($lockUnlockValue) . "<br>";
-    $currentURL = $_SERVER['REQUEST_URI'];
-echo "Current Page URL: " . $currentURL;
+    // $currentURL = $_SERVER['REQUEST_URI'];
+    // echo "Current Page URL: " . $currentURL;
     ?>
 
     <!-- Pre-loader end -->

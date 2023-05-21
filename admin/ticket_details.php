@@ -177,12 +177,14 @@
                                                                 <button id="status-dropdown" class="btn btn-sm btn-primary dropdown-toggle waves-light" type="button" id="dropdown2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                     <?php echo $row['status'] == 0 ? 'Open' : ($row['status'] == 1 ? 'Processing' : ($row['status'] == 2 ? 'Resolved' : 'Closed')); ?>
                                                                 </button>
-                                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown2" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                                                    <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $row['status'] == 0 ? 'active' : ''; ?>" href="#!" data-status="0">Open</a>
-                                                                    <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $row['status'] == 1 ? 'active' : ''; ?>" href="#!" data-status="1">Processing</a>
-                                                                    <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $row['status'] == 2 ? 'active' : ''; ?>" href="#!" data-status="2">Resolved</a>
-                                                                    <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $row['status'] == 3 ? 'active' : ''; ?>" href="#!" data-status="3">Closed</a>
-                                                                </div>
+                                                                <?php if ($_SESSION['srole'] == 1 || $_SESSION['srole'] == 2): ?>
+                                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown2" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                                                        <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $row['status'] == 0 ? 'active' : ''; ?>" href="#!" data-status="0">Open</a>
+                                                                        <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $row['status'] == 1 ? 'active' : ''; ?>" href="#!" data-status="1">Processing</a>
+                                                                        <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $row['status'] == 2 ? 'active' : ''; ?>" href="#!" data-status="2">Resolved</a>
+                                                                        <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $row['status'] == 3 ? 'active' : ''; ?>" href="#!" data-status="3">Closed</a>
+                                                                    </div>
+                                                                <?php endif; ?>
                                                                 <!-- end of dropdown menu -->
                                                             </div>
                                                         </div>
