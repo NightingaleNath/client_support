@@ -48,30 +48,32 @@
                                                                         <div class="card">
                                                                             <div class="card-block contact-details">
                                                                                 <div class="data_table_main table-responsive dt-responsive">
-                                                                                    <?php
-                                                                                        $stmt = mysqli_prepare($conn, "SELECT id, firstname, lastname, middlename, contact, address, email FROM customers ORDER BY date_created DESC");
-                                                                                        mysqli_stmt_execute($stmt);
-                                                                                        mysqli_stmt_store_result($stmt);
-                                                                                        if (mysqli_stmt_num_rows($stmt) <= 0) {
-                                                                                            echo '<tr><td colspan="5" class="text-center"><img src="..\files\assets\images\no_data.png" class="img-radius" alt="No Data Found" style="width: 200px; height: auto;"></td></tr>';
-                                                                                        } else {
-                                                                                            mysqli_stmt_bind_result($stmt, $id, $firstname, $lastname, $middlename, $contact, $address, $email);
-                                                                                            $count = 1;
+                                                                                   <?php
+                                                                                    $stmt = mysqli_prepare($conn, "SELECT id, firstname, lastname, middlename, contact, address, email FROM customers ORDER BY date_created DESC");
+                                                                                    mysqli_stmt_execute($stmt);
+                                                                                    mysqli_stmt_store_result($stmt);
+                                                                                    mysqli_stmt_bind_result($stmt, $id, $firstname, $lastname, $middlename, $contact, $address, $email);
+                                                                                    $count = 1;
+                                                                                    ?>
+                                                                                    <table id="simpletable" class="table table-striped table-bordered">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th>#</th>
+                                                                                                <th>Name</th>
+                                                                                                <th>Contact</th>
+                                                                                                <th>Address</th>
+                                                                                                <th>Email</th>
+                                                                                                <th>Action</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            <?php
+                                                                                            if (mysqli_stmt_num_rows($stmt) <= 0) {
+                                                                                                echo '<tr><td colspan="6" class="text-center"><img src="..\files\assets\images\no_data.png" class="img-radius" alt="No Data Found" style="width: 200px; height: auto;"></td></tr>';
+                                                                                            } else {
+                                                                                                while (mysqli_stmt_fetch($stmt)) {
                                                                                             ?>
-                                                                                        <table id="simpletable" class="table  table-striped table-bordered">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>#</th>
-                                                                                                    <th>Name</th>
-                                                                                                    <th>Contact</th>
-                                                                                                    <th>Address</th>
-                                                                                                    <th>Email</th>
-                                                                                                    <th>Action</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                              <?php while (mysqli_stmt_fetch($stmt)) { ?>
-                                                                                                <tr>
+                                                                                                    <tr>
                                                                                                         <td><?= $count ?></td>
                                                                                                         <td><?= $firstname . " " . $middlename . " " . $lastname ?></td>
                                                                                                         <td><?= $contact ?></td>
@@ -85,15 +87,18 @@
                                                                                                             </div>
                                                                                                         </td>
                                                                                                     </tr>
-                                                                                                    <?php $count++;
-                                                                                                } ?>
-                                                                                            </tbody>
-                                                                                        </table>
+                                                                                            <?php
+                                                                                                    $count++;
+                                                                                                }
+                                                                                            }
+                                                                                            ?>
+                                                                                        </tbody>
+                                                                                    </table>
                                                                                     <?php
-                                                                                    }
-                                                                                  mysqli_stmt_close($stmt);
-                                                                                  ?>
+                                                                                    mysqli_stmt_close($stmt);
+                                                                                    ?>
                                                                                 </div>
+
                                                                             </div>
                                                                         </div>
                                                                         <!-- contact data table card end -->

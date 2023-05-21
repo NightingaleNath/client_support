@@ -83,14 +83,7 @@
                                             <div class="col-xl-3 col-lg-12 push-xl-9">
                                                 <!-- Search box card start -->
                                                 <div class="card">
-                                                    <div class="card-header">
-                                                        <h5 class="card-header-text">Search Box</h5>
-                                                    </div>
                                                     <div class="card-block p-t-10">
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control" placeholder="Search here...">
-                                                            <span class="input-group-addon" id="basic-addon1"><i class="icofont icofont-search"></i></span>
-                                                        </div>
                                                         <div class="task-right">
                                                             <div class="task-right-header-status">
                                                                 <span data-toggle="collapse">Ticket Status</span>
@@ -313,7 +306,7 @@
                                                         </li>
                                                         <!-- end of by status dropdown -->
                                                     </ul>
-                                                    <div class="nav-item nav-grid">
+                                                    <!-- <div class="nav-item nav-grid">
                                                         <span class="m-r-15">View Mode: </span>
                                                         <button type="button" class="btn btn-sm btn-primary waves-effect waves-light m-r-10" data-toggle="tooltip" data-placement="top" title="list view">
                                                             <i class="icofont icofont-listine-dots"></i>
@@ -321,104 +314,104 @@
                                                         <button type="button" class="btn btn-sm btn-primary waves-effect waves-light" data-toggle="tooltip" data-placement="top" title="grid view">
                                                             <i class="icofont icofont-table"></i>
                                                         </button>
-                                                    </div>
+                                                    </div> -->
                                                     <!-- end of by priority dropdown -->
 
                                                 </nav>
                                                 <!-- Nav Filter tab end -->
                                                 <!-- Task board design block start-->
                                                 <div class="row">
-                                                <?php foreach ($results as $result){ ?>
-                                                    <div class="col-sm-6">
+                                                    <?php
+                                                    if (empty($results)) {
+                                                        // Display image when there are no tickets
+                                                        echo '<div style="width: 100%; height: auto;" class="d-block img-fluid col-sm-12 text-center"><img class="" src="..\files\assets\images\no_data.png" alt="No Tickets Found" style="width: 50%; height: auto;"></div>';
+                                                    } else {
+                                                        foreach ($results as $result) {
+                                                            // Assign color class based on priority
+                                                            $color_class = '';
+                                                            switch ($result['priority']) {
+                                                                case 'Highest':
+                                                                    $color_class = 'card-border-danger';
+                                                                    break;
+                                                                case 'High':
+                                                                    $color_class = 'card-border-warning';
+                                                                    break;
+                                                                case 'Normal':
+                                                                    $color_class = 'card-border-success';
+                                                                    break;
+                                                                case 'Low':
+                                                                    $color_class = 'card-border-primary';
+                                                                    break;
+                                                                default:
+                                                                    $color_class = 'card-border-primary';
+                                                            }
+                                                            ?>
+                                                            <div class="col-sm-6">
+                                                                <div class="card <?php echo $color_class; ?>">
+                                                                    <div class="card-header">
+                                                                        <a href="#" class="card-title">#<?php echo $result['id']; ?>. <?php echo $result['subject']; ?> </a>
+                                                                        <span class="label label-primary f-right"><?php echo date('d F, Y', strtotime($result['date_created'])); ?> </span>
+                                                                    </div>
+                                                                    <div class="card-block">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-12">
+                                                                                <p class="task-detail">
+                                                                                    <?php
+                                                                                    $description = htmlspecialchars_decode($result['description']);
+                                                                                    $description = strip_tags($description);
+                                                                                    $description = substr($description, 0, 250);
+                                                                                    echo $description . (strlen($result['description']) > 250 ? '...' : '');
+                                                                                    ?>
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="card-footer">
+                                                                        <div class="task-list-table">
+                                                                            <p class="task-due" style="margin-top: 10px;"><strong> Due : </strong><?php echo $result['due_label']; ?></p>
+                                                                        </div>
+                                                                        <div class="task-board">
+                                                                            <div class="dropdown-secondary dropdown">
+                                                                                <button id="priority-dropdown" class="btn btn-primary btn-mini dropdown-toggle waves-effect waves-light" type="button" id="dropdown1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                    <?php echo $result['priority']; ?>
+                                                                                </button>
+                                                                                <div class="dropdown-menu" aria-labelledby="dropdown1" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                                                                    <a class="dropdown-priority dropdown-item waves-light waves-effect <?php echo $result['priority'] == 'Highest' ? 'active' : ''; ?>" href="#!" data-priority="Highest" data-ticket-id="<?php echo $result['id']; ?>"><span class="point-marker bg-danger"></span>Highest priority</a>
+                                                                                    <a class="dropdown-priority dropdown-item waves-light waves-effect <?php echo $result['priority'] == 'High' ? 'active' : ''; ?>" href="#!" data-priority="High" data-ticket-id="<?php echo $result['id']; ?>"><span class="point-marker bg-warning"></span>High priority</a>
+                                                                                    <a class="dropdown-priority dropdown-item waves-light waves-effect <?php echo $result['priority'] == 'Normal' ? 'active' : ''; ?>" href="#!" data-priority="Normal" data-ticket-id="<?php echo $result['id']; ?>"><span class="point-marker bg-success"></span>Normal priority</a>
+                                                                                    <a class="dropdown-priority dropdown-item waves-light waves-effect <?php echo $result['priority'] == 'Low' ? 'active' : ''; ?>" href="#!" data-priority="Low" data-ticket-id="<?php echo $result['id']; ?>"><span class="point-marker bg-info"></span>Low priority</a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="dropdown-secondary dropdown">
+                                                                                <button id="status-dropdown" class="btn btn-default btn-mini dropdown-toggle waves-light b-none txt-muted" type="button" id="dropdown2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                    <?php echo $result['status'] == 0 ? 'Open' : ($result['status'] == 1 ? 'Processing' : ($result['status'] == 2 ? 'Resolved' : 'Closed')); ?>
+                                                                                </button>
+                                                                                <div class="dropdown-menu" aria-labelledby="dropdown2" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                                                                    <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $result['status'] == 0 ? 'active' : ''; ?>" href="#!" data-status="0" data-ticket-id="<?php echo $result['id']; ?>">Open</a>
+                                                                                    <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $result['status'] == 1 ? 'active' : ''; ?>" href="#!" data-status="1" data-ticket-id="<?php echo $result['id']; ?>">Processing</a>
+                                                                                    <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $result['status'] == 2 ? 'active' : ''; ?>" href="#!" data-status="2" data-ticket-id="<?php echo $result['id']; ?>">Resolved</a>
+                                                                                    <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $result['status'] == 3 ? 'active' : ''; ?>" href="#!" data-status="3" data-ticket-id="<?php echo $result['id']; ?>">Closed</a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="dropdown-secondary dropdown">
+                                                                                <button class="btn btn-default btn-mini dropdown-toggle waves-light b-none txt-muted" type="button" id="dropdown3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icofont icofont-navigation-menu"></i></button>
+                                                                                <div class="dropdown-menu" aria-labelledby="dropdown3" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                                                                    <a class="dropdown-item waves-light waves-effect" href="new_ticket.php?id=<?php echo $result['id']; ?>&edit=1"><i class="icofont icofont-ui-edit"></i> Edit Ticket</a>
+                                                                                    <div class="dropdown-divider"></div>
+                                                                                    <a class="dropdown-item waves-light waves-effect" href="ticket_details.php?id=<?php echo $result['id']; ?>&edit=1"><i class="icofont icofont-spinner-alt-5"></i> View Ticket</a>
+                                                                                    <a class="remove-ticket dropdown-item waves-light waves-effect" href="#!" data-ticket-id="<?php echo $result['id']; ?>"><i class="icofont icofont-close-line"></i> Remove</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         <?php
-                                                        // Assign color class based on priority
-                                                        $color_class = '';
-                                                        switch ($result['priority']) {
-                                                            case 'Highest':
-                                                                $color_class = 'card-border-danger';
-                                                                break;
-                                                            case 'High':
-                                                                $color_class = 'card-border-warning';
-                                                                break;
-                                                            case 'Normal':
-                                                                $color_class = 'card-border-success';
-                                                                break;
-                                                            case 'Low':
-                                                                $color_class = 'card-border-primary';
-                                                                break;
-                                                            default:
-                                                                $color_class = 'card-border-primary';
                                                         }
-                                                        ?>
-                                                        <div class="card <?php echo $color_class; ?>">
-                                                            <div class="card-header">
-                                                                <a href="#" class="card-title">#<?php echo $result['id']; ?>. <?php echo $result['subject']; ?> </a>
-                                                                <span class="label label-primary f-right"><?php echo date('d F, Y', strtotime($result['date_created'])); ?> </span>
-                                                            </div>
-                                                            <div class="card-block">
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <p class="task-detail">
-                                                                            <?php
-                                                                            $description = htmlspecialchars_decode($result['description']);
-                                                                            $description = strip_tags($description);
-                                                                            $description = substr($description, 0, 250);
-                                                                            echo $description . (strlen($result['description']) > 250 ? '...' : '');
-                                                                            ?>
-                                                                        </p>
-                                                                    </div>
-                                                                    <!-- end of col-sm-8 -->
-                                                                </div>
-                                                                <!-- end of row -->
-                                                            </div>
-                                                            <div class="card-footer">
-                                                                <div class="task-list-table">
-                                                                     <p class="task-due" style="margin-top: 10px;"><strong> Due : </strong><?php echo $result['due_label']; ?></p>
-                                                                </div>
-                                                                <div class="task-board">
-                                                                    <div class="dropdown-secondary dropdown">
-                                                                        <button id="priority-dropdown" class="btn btn-primary btn-mini dropdown-toggle waves-effect waves-light" type="button" id="dropdown1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                            <?php echo $result['priority']; ?>
-                                                                        </button>
-                                                                        <div class="dropdown-menu" aria-labelledby="dropdown1" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                                                            <a class="dropdown-priority dropdown-item waves-light waves-effect <?php echo $result['priority'] == 'Highest' ? 'active' : ''; ?>" href="#!" data-priority="Highest" data-ticket-id="<?php echo $result['id']; ?>"><span class="point-marker bg-danger"></span>Highest priority</a>
-                                                                            <a class="dropdown-priority dropdown-item waves-light waves-effect <?php echo $result['priority'] == 'High' ? 'active' : ''; ?>" href="#!" data-priority="High" data-ticket-id="<?php echo $result['id']; ?>"><span class="point-marker bg-warning"></span>High priority</a>
-                                                                            <a class="dropdown-priority dropdown-item waves-light waves-effect <?php echo $result['priority'] == 'Normal' ? 'active' : ''; ?>" href="#!" data-priority="Normal" data-ticket-id="<?php echo $result['id']; ?>"><span class="point-marker bg-success"></span>Normal priority</a>
-                                                                            <a class="dropdown-priority dropdown-item waves-light waves-effect <?php echo $result['priority'] == 'Low' ? 'active' : ''; ?>" href="#!" data-priority="Low" data-ticket-id="<?php echo $result['id']; ?>"><span class="point-marker bg-info"></span>Low priority</a>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="dropdown-secondary dropdown">
-                                                                        <button id="status-dropdown" class="btn btn-default btn-mini dropdown-toggle waves-light b-none txt-muted" type="button" id="dropdown2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                            <?php echo $result['status'] == 0 ? 'Open' : ($result['status'] == 1 ? 'Processing' : ($result['status'] == 2 ? 'Resolved' : 'Closed')); ?>
-                                                                        </button>
-                                                                        <div class="dropdown-menu" aria-labelledby="dropdown2" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                                                            <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $result['status'] == 0 ? 'active' : ''; ?>" href="#!" data-status="0" data-ticket-id="<?php echo $result['id']; ?>">Open</a>
-                                                                            <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $result['status'] == 1 ? 'active' : ''; ?>" href="#!" data-status="1" data-ticket-id="<?php echo $result['id']; ?>">Processing</a>
-                                                                            <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $result['status'] == 2 ? 'active' : ''; ?>" href="#!" data-status="2" data-ticket-id="<?php echo $result['id']; ?>">Resolved</a>
-                                                                            <a class="dropdown-status dropdown-item waves-light waves-effect <?php echo $result['status'] == 3 ? 'active' : ''; ?>" href="#!" data-status="3" data-ticket-id="<?php echo $result['id']; ?>">Closed</a>
-                                                                        </div>
-                                                                        <!-- end of dropdown menu -->
-                                                                    </div>
-                                                                    <!-- end of dropdown-secondary -->
-                                                                    <div class="dropdown-secondary dropdown">
-                                                                        <button class="btn btn-default btn-mini dropdown-toggle waves-light b-none txt-muted" type="button" id="dropdown3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icofont icofont-navigation-menu"></i></button>
-                                                                        <div class="dropdown-menu" aria-labelledby="dropdown3" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                                                            <a class="dropdown-item waves-light waves-effect" href="new_ticket.php?id=<?php echo $result['id']; ?>&edit=1"><i class="icofont icofont-ui-edit"></i> Edit Ticket</a>
-                                                                            <div class="dropdown-divider"></div>
-                                                                            <a class="dropdown-item waves-light waves-effect" href="ticket_details.php?id=<?php echo $result['id']; ?>&edit=1"><i class="icofont icofont-spinner-alt-5"></i> View Ticket</a>
-                                                                            <a class="remove-ticket dropdown-item waves-light waves-effect" href="#!" data-ticket-id="<?php echo $result['id']; ?>"><i class="icofont icofont-close-line"></i> Remove</a>
-                                                                        </div>
-                                                                        <!-- end of dropdown menu -->
-                                                                    </div>
-                                                                    <!-- end of seconadary -->
-                                                                </div>
-                                                                <!-- end of pull-right class -->
-                                                            </div>
-                                                            <!-- end of card-footer -->
-                                                        </div>
-                                                    </div>
-                                                    <?php } ?>
+                                                    }
+                                                    ?>
                                                 </div>
+
                                                 <!-- Task board design block end -->
                                             </div>
                                             <!-- Left column end -->
@@ -459,10 +452,10 @@
         $total_count = $highest_count + $high_count + $normal_count + $low_count;
 
         // Calculate percentage width for each loader bar
-        $highest_width = ($highest_count / $total_count) * 100;
-        $high_width = ($high_count / $total_count) * 100;
-        $normal_width = ($normal_count / $total_count) * 100;
-        $low_width = ($low_count / $total_count) * 100;
+        $highest_width = ($total_count != 0) ? ($highest_count / $total_count) * 100 : 0;
+        $high_width = ($total_count != 0) ? ($high_count / $total_count) * 100 : 0;
+        $normal_width = ($total_count != 0) ? ($normal_count / $total_count) * 100 : 0;
+        $low_width = ($total_count != 0) ? ($low_count / $total_count) * 100 : 0;
     ?>
     
     <?php include('../includes/scripts.php')?>
