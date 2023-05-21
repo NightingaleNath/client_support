@@ -3,7 +3,7 @@
 define('DB_HOST','localhost');
 define('DB_USER','root');
 define('DB_PASS','');
-define('DB_NAME','aci_leave');
+define('DB_NAME','customer_support');
 
 $conn = mysqli_connect('localhost','root','','customer_support') or die(mysqli_error());
 
